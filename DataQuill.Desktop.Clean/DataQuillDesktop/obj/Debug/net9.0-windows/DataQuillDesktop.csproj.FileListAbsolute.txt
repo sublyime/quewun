@@ -1,4 +1,9 @@
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\DataQuillDesktop.csproj.AssemblyReference.cache
+C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\TestWindow.baml
+C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\Views\DashboardView.baml
+C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\MainWindow.g.cs
+C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\TestWindow.g.cs
+C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\Views\DashboardView.g.cs
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\App.g.cs
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\GeneratedInternalTypeHelper.g.cs
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\DataQuillDesktop_MarkupCompile.cache
@@ -25,7 +30,6 @@ C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\bin\Debug\net9.0-windows
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\bin\Debug\net9.0-windows\Microsoft.Extensions.Primitives.dll
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\bin\Debug\net9.0-windows\Microsoft.Xaml.Behaviors.dll
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\bin\Debug\net9.0-windows\Newtonsoft.Json.dll
-C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\MainWindow.g.cs
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\App.baml
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\MainWindow.baml
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\DataQuillDesktop.g.resources
@@ -33,6 +37,7 @@ C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\DataQuillDesktop.AssemblyInfoInputs.cache
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\DataQuillDesktop.AssemblyInfo.cs
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\DataQuillDesktop.csproj.CoreCompileInputs.cache
+C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\DataQuillDesktop.sourcelink.json
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\DataQuil.333BCBD4.Up2Date
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\DataQuillDesktop.dll
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\refint\DataQuillDesktop.dll

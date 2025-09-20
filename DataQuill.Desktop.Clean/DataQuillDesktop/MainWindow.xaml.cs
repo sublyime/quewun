@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Windows;
+using System.Windows.Controls;
 using DataQuillDesktop.ViewModels;
 using DataQuillDesktop.Services;
 
@@ -16,51 +17,50 @@ public partial class MainWindow : Window
         {
             Console.WriteLine("=== DataQuill Desktop Starting ===");
             InitializeComponent();
-
             Console.WriteLine("Window initialized successfully!");
 
-            // Set up the main view model
-            var httpClient = new HttpClient();
-            var apiService = new ApiService(httpClient);
-            var mainViewModel = new MainViewModel(apiService);
+            // Keep it simple for now - just show the window
+            this.Show();
+            this.Activate();
+            this.WindowState = WindowState.Normal;
+            this.Topmost = true;
+            this.Focus();
 
-            // Set the DataContext for MVVM binding
-            DataContext = mainViewModel;
-
-            Console.WriteLine("MainViewModel created and bound to DataContext");
+            Console.WriteLine("Window should now be visible!");
             Console.WriteLine("=== DataQuill Desktop Ready ===");
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error initializing MainWindow: {ex.Message}");
-            MessageBox.Show($"Error starting application: {ex.Message}", "DataQuill Desktop Error",
-                MessageBoxButton.OK, MessageBoxImage.Error);
+            Console.WriteLine($"Stack trace: {ex.StackTrace}");
+            MessageBox.Show($"Error starting application: {ex.Message}\n\nStack trace:\n{ex.StackTrace}",
+                "DataQuill Desktop Error", MessageBoxButton.OK, MessageBoxImage.Error);
             throw;
         }
     }
 
-    private void TestButton_Click(object sender, RoutedEventArgs e)
+    private void NavigateToSection(object sender, RoutedEventArgs e)
     {
-        var message = """
-            🎉 DataQuill Desktop - Native Windows Features Test
+        if (sender is Button button)
+        {
+            string section = button.Name.Replace("Btn", "");
 
-            ✅ WPF .NET 8 Framework
-            ✅ Material Design UI Components
-            ✅ MVVM Architecture with Data Binding
-            ✅ Navigation System
-            ✅ REST API Service Ready
-            ✅ Native Windows Performance
+            // Update content based on selected section
+            string content = section switch
+            {
+                "Dashboard" => "📊 Dashboard Section\n\nHere you can view:\n• System metrics and KPIs (5 active connections)\n• Data visualization charts (1,247 queries today)\n• Real-time monitoring (125.7 GB processed)\n• Quick action widgets (23 users online)\n\n✅ DashboardView is ready to be integrated!",
+                "Configure" => "⚙️ Configuration Section\n\nManage:\n• Database connections\n• Application settings\n• User preferences\n• System configuration",
+                "Reports" => "📄 Reports Section\n\nAccess:\n• Generate custom reports\n• Export to PDF/Excel\n• Schedule automated reports\n• Report templates",
+                "Storage" => "💾 Storage Section\n\nManage:\n• File operations\n• Backup and restore\n• Data import/export\n• Storage monitoring",
+                "Users" => "👥 Users Section\n\nAdminister:\n• User accounts\n• Permissions and roles\n• Authentication settings\n• User profiles",
+                "Terminal" => "💻 Terminal Section\n\nExecute:\n• SQL queries\n• Command operations\n• Query history\n• Results visualization",
+                _ => "Welcome to DataQuill Desktop! Click a section on the left to get started."
+            };
 
-            Your application successfully integrates:
-            • Modern UI with Material Design
-            • Professional MVVM pattern
-            • Backend API connectivity
-            • Native Windows features
+            ContentDisplay.Text = content;
 
-            Click on the navigation items to explore different sections!
-            """;
-
-        MessageBox.Show(message, "DataQuill Desktop - Status Check",
-            MessageBoxButton.OK, MessageBoxImage.Information);
+            // Update title to show current section
+            this.Title = $"DataQuill Desktop - {section}";
+        }
     }
 }

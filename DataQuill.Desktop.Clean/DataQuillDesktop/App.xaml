@@ -6,19 +6,13 @@
              xmlns:converters="clr-namespace:DataQuillDesktop.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <!-- Material Design Themes -->
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <!-- Material Design Bundle Theme -->
-                <materialDesign:BundledTheme BaseTheme="Light"
-                                             PrimaryColor="DeepPurple"
-                                             SecondaryColor="Lime"/>
-            </ResourceDictionary.MergedDictionaries>
-
             <!-- Custom Converters -->
             <converters:SectionToVisibilityConverter x:Key="SectionToVisibilityConverter"/>
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <converters:BooleanToColorConverter x:Key="BooleanToColorConverter"/>
+            <converters:BooleanToStringConverter x:Key="BooleanToStringConverter"/>
+            <converters:MessageTypeToColorConverter x:Key="MessageTypeToColorConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

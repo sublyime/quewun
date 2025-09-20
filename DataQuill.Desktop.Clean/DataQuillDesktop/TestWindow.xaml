@@ -1,0 +1,19 @@
+<Window x:Class="DataQuillDesktop.TestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DataQuill Desktop - Test Window"
+        Height="600"
+        Width="800"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Normal"
+        Topmost="True"
+        Background="LightBlue">
+
+    <Grid>
+        <TextBlock Text="DataQuill Desktop - Test Window"
+                   FontSize="24"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="DarkBlue"/>
+    </Grid>
+</Window>
