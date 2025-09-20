@@ -88,6 +88,21 @@
                     <!-- Dashboard View -->
                     <views:DashboardView x:Name="DashboardPanel"
                             Visibility="Collapsed"/>
+                    <!-- Configure View -->
+                    <views:ConfigureView x:Name="ConfigurePanel"
+                            Visibility="Collapsed"/>
+                    <!-- Reports View -->
+                    <views:ReportsView x:Name="ReportsPanel"
+                            Visibility="Collapsed"/>
+                    <!-- Storage View -->
+                    <views:StorageView x:Name="StoragePanel"
+                            Visibility="Collapsed"/>
+                    <!-- Users View -->
+                    <views:UsersView x:Name="UsersPanel"
+                            Visibility="Collapsed"/>
+                    <!-- Terminal View -->
+                    <views:TerminalView x:Name="TerminalPanel"
+                            Visibility="Collapsed"/>
                 </Grid>
             </Border>
         </Grid>

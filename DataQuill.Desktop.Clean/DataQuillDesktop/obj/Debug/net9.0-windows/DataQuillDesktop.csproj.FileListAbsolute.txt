@@ -44,3 +44,13 @@ C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\DataQuillDesktop.pdb
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\DataQuillDesktop.genruntimeconfig.cache
 C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\ref\DataQuillDesktop.dll
+C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\Views\ConfigureView.baml
+C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\Views\ReportsView.baml
+C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\Views\StorageView.baml
+C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\Views\TerminalView.baml
+C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\Views\UsersView.baml
+C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\Views\ConfigureView.g.cs
+C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\Views\ReportsView.g.cs
+C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\Views\StorageView.g.cs
+C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\Views\TerminalView.g.cs
+C:\code\quewun\DataQuill.Desktop.Clean\DataQuillDesktop\obj\Debug\net9.0-windows\Views\UsersView.g.cs
