@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DataQuillDesktop")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9bd7c51f8d65cb635b7171bed0b7a8f001a66955")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c25c37548407dbbe4aa933e3db05f8354d0cea99")]
 [assembly: System.Reflection.AssemblyProductAttribute("DataQuillDesktop")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DataQuillDesktop")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

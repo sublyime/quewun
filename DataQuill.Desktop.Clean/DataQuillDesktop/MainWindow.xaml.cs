@@ -45,19 +45,29 @@ public partial class MainWindow : Window
         {
             string section = button.Name.Replace("Btn", "");
 
-            // Update content based on selected section
-            string content = section switch
-            {
-                "Dashboard" => "📊 Dashboard Section\n\nHere you can view:\n• System metrics and KPIs (5 active connections)\n• Data visualization charts (1,247 queries today)\n• Real-time monitoring (125.7 GB processed)\n• Quick action widgets (23 users online)\n\n✅ DashboardView is ready to be integrated!",
-                "Configure" => "⚙️ Configuration Section\n\nManage:\n• Database connections\n• Application settings\n• User preferences\n• System configuration",
-                "Reports" => "📄 Reports Section\n\nAccess:\n• Generate custom reports\n• Export to PDF/Excel\n• Schedule automated reports\n• Report templates",
-                "Storage" => "💾 Storage Section\n\nManage:\n• File operations\n• Backup and restore\n• Data import/export\n• Storage monitoring",
-                "Users" => "👥 Users Section\n\nAdminister:\n• User accounts\n• Permissions and roles\n• Authentication settings\n• User profiles",
-                "Terminal" => "💻 Terminal Section\n\nExecute:\n• SQL queries\n• Command operations\n• Query history\n• Results visualization",
-                _ => "Welcome to DataQuill Desktop! Click a section on the left to get started."
-            };
+            // Hide all panels first
+            ContentDisplay.Visibility = Visibility.Collapsed;
+            DashboardPanel.Visibility = Visibility.Collapsed;
 
-            ContentDisplay.Text = content;
+            // Show the appropriate content
+            if (section == "Dashboard")
+            {
+                DashboardPanel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ContentDisplay.Visibility = Visibility.Visible;
+                string content = section switch
+                {
+                    "Configure" => "⚙️ Configuration Section\n\nManage:\n• Database connections\n• Application settings\n• User preferences\n• System configuration",
+                    "Reports" => "📄 Reports Section\n\nAccess:\n• Generate custom reports\n• Export to PDF/Excel\n• Schedule automated reports\n• Report templates",
+                    "Storage" => "💾 Storage Section\n\nManage:\n• File operations\n• Backup and restore\n• Data import/export\n• Storage monitoring",
+                    "Users" => "👥 Users Section\n\nAdminister:\n• User accounts\n• Permissions and roles\n• Authentication settings\n• User profiles",
+                    "Terminal" => "💻 Terminal Section\n\nExecute:\n• SQL queries\n• Command operations\n• Query history\n• Results visualization",
+                    _ => "Welcome to DataQuill Desktop! Click a section on the left to get started."
+                };
+                ContentDisplay.Text = content;
+            }
 
             // Update title to show current section
             this.Title = $"DataQuill Desktop - {section}";

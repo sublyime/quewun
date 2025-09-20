@@ -72,16 +72,23 @@
             <!-- Main Content -->
             <Border Grid.Column="1"
                     Background="White">
-                <TextBlock Name="ContentDisplay"
-                           Text="Welcome to DataQuill Desktop! Click a section on the left to get started."
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           FontSize="18"
-                           Foreground="DarkBlue"
-                           FontWeight="Bold"
-                           TextWrapping="Wrap"
-                           TextAlignment="Center"
-                           Margin="20"/>
+                <Grid>
+                    <!-- Welcome Text -->
+                    <TextBlock Name="ContentDisplay"
+                               Text="Welcome to DataQuill Desktop! Click a section on the left to get started."
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="18"
+                               Foreground="DarkBlue"
+                               FontWeight="Bold"
+                               TextWrapping="Wrap"
+                               TextAlignment="Center"
+                               Margin="20"/>
+
+                    <!-- Dashboard View -->
+                    <views:DashboardView x:Name="DashboardPanel"
+                            Visibility="Collapsed"/>
+                </Grid>
             </Border>
         </Grid>
     </Grid>
