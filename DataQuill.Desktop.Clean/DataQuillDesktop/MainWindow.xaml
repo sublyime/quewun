@@ -1,0 +1,336 @@
+<Window x:Class="DataQuillDesktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DataQuillDesktop"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:converters="clr-namespace:DataQuillDesktop.Converters"
+        mc:Ignorable="d"
+        Title="DataQuill Desktop"
+        Height="700"
+        Width="1200"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        WindowStartupLocation="CenterScreen">
+
+    <!-- Main Layout -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Header -->
+            <RowDefinition Height="*"/>
+            <!-- Content -->
+        </Grid.RowDefinitions>
+
+        <!-- Header with Connection Status -->
+        <materialDesign:Card Grid.Row="0"
+                             Margin="8">
+            <materialDesign:Card.Effect>
+                <DropShadowEffect BlurRadius="5"
+                                  ShadowDepth="2"
+                                  Color="Gray"
+                                  Opacity="0.3"/>
+            </materialDesign:Card.Effect>
+            <Grid Height="60"
+                  Margin="16,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- App Title -->
+                <StackPanel Grid.Column="0"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Database"
+                                             Width="32"
+                                             Height="32"
+                                             Margin="0,0,12,0"
+                                             Foreground="DarkOrchid"/>
+                    <TextBlock Text="DataQuill Desktop"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Welcome Message -->
+                <TextBlock Grid.Column="1"
+                           Text="{Binding WelcomeMessage}"
+                           FontSize="16"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           FontWeight="Medium"/>
+
+                <!-- Connection Status -->
+                <StackPanel Grid.Column="2"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Circle"
+                                             Width="12"
+                                             Height="12"
+                                             Margin="0,0,8,0">
+                        <materialDesign:PackIcon.Foreground>
+                            <SolidColorBrush Color="{Binding IsConnected, Converter={StaticResource BooleanToColorConverter}, 
+                                                    ConverterParameter='#4CAF50;#F44336'}"/>
+                        </materialDesign:PackIcon.Foreground>
+                    </materialDesign:PackIcon>
+                    <TextBlock Text="{Binding ConnectionStatus}"
+                               FontWeight="Medium"/>
+                    <Button Content="Test"
+                            Margin="8,0,0,0"
+                            Style="{x:Null}"
+                            Command="{Binding TestConnectionCommand}"/>
+                </StackPanel>
+            </Grid>
+        </materialDesign:Card>
+
+        <!-- Main Content Area -->
+        <Grid Grid.Row="1"
+              Margin="8,0,8,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240"/>
+                <!-- Sidebar -->
+                <ColumnDefinition Width="*"/>
+                <!-- Content -->
+            </Grid.ColumnDefinitions>
+
+            <!-- Navigation Sidebar -->
+            <materialDesign:Card Grid.Column="0"
+                                 Margin="0,0,4,0">
+                <materialDesign:Card.Effect>
+                    <DropShadowEffect BlurRadius="5"
+                                      ShadowDepth="2"
+                                      Color="Gray"
+                                      Opacity="0.3"/>
+                </materialDesign:Card.Effect>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="8">
+                        <TextBlock Text="Navigation"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Margin="8,8,8,16"
+                                   Foreground="DarkOrchid"/>
+
+                        <!-- Navigation Items -->
+                        <Button Content="?? Dashboard"
+                                Tag="Dashboard"
+                                Margin="4,2"
+                                Height="48"
+                                HorizontalContentAlignment="Left"
+                                Padding="16,0"
+                                Style="{x:Null}"
+                                Command="{Binding NavigateCommand}"
+                                CommandParameter="Dashboard"/>
+
+                        <Button Content="?? Configure"
+                                Tag="Configure"
+                                Margin="4,2"
+                                Height="48"
+                                HorizontalContentAlignment="Left"
+                                Padding="16,0"
+                                Style="{x:Null}"
+                                Command="{Binding NavigateCommand}"
+                                CommandParameter="Configure"/>
+
+                        <Button Content="?? Reports"
+                                Tag="Reports"
+                                Margin="4,2"
+                                Height="48"
+                                HorizontalContentAlignment="Left"
+                                Padding="16,0"
+                                Style="{x:Null}"
+                                Command="{Binding NavigateCommand}"
+                                CommandParameter="Reports"/>
+
+                        <Button Content="?? Storage"
+                                Tag="Storage"
+                                Margin="4,2"
+                                Height="48"
+                                HorizontalContentAlignment="Left"
+                                Padding="16,0"
+                                Style="{x:Null}"
+                                Command="{Binding NavigateCommand}"
+                                CommandParameter="Storage"/>
+
+                        <Button Content="?? Users"
+                                Tag="Users"
+                                Margin="4,2"
+                                Height="48"
+                                HorizontalContentAlignment="Left"
+                                Padding="16,0"
+                                Style="{x:Null}"
+                                Command="{Binding NavigateCommand}"
+                                CommandParameter="Users"/>
+
+                        <Button Content="?? Terminal"
+                                Tag="Terminal"
+                                Margin="4,2"
+                                Height="48"
+                                HorizontalContentAlignment="Left"
+                                Padding="16,0"
+                                Style="{x:Null}"
+                                Command="{Binding NavigateCommand}"
+                                CommandParameter="Terminal"/>
+
+                        <Separator Margin="8,16"/>
+
+                        <Button Content="?? Test Features"
+                                Margin="4,2"
+                                Height="48"
+                                HorizontalContentAlignment="Left"
+                                Padding="16,0"
+                                Style="{x:Null}"
+                                Click="TestButton_Click"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </materialDesign:Card>
+
+            <!-- Content Area -->
+            <materialDesign:Card Grid.Column="1"
+                                 Margin="4,0,0,0">
+                <materialDesign:Card.Effect>
+                    <DropShadowEffect BlurRadius="5"
+                                      ShadowDepth="2"
+                                      Color="Gray"
+                                      Opacity="0.3"/>
+                </materialDesign:Card.Effect>
+                <Grid>
+                    <!-- Dashboard View -->
+                    <StackPanel Visibility="{Binding CurrentSection, Converter={StaticResource SectionToVisibilityConverter}, ConverterParameter=Dashboard}"
+                                Margin="24">
+                        <TextBlock Text="?? Dashboard"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Margin="0,0,0,24"/>
+
+                        <!-- Dashboard Cards -->
+                        <UniformGrid Columns="2"
+                                     Rows="2">
+                            <materialDesign:Card Margin="8"
+                                                 Padding="16"
+                                                 Height="120">
+                                <StackPanel>
+                                    <TextBlock Text="Database Connections"
+                                               FontSize="16"
+                                               FontWeight="Bold"/>
+                                    <TextBlock Text="3 Active"
+                                               FontSize="24"
+                                               FontWeight="Bold"
+                                               Foreground="DarkOrchid"/>
+                                    <TextBlock Text="Ready for queries"
+                                               FontSize="12"
+                                               Opacity="0.7"/>
+                                </StackPanel>
+                            </materialDesign:Card>
+
+                            <materialDesign:Card Margin="8"
+                                                 Padding="16"
+                                                 Height="120">
+                                <StackPanel>
+                                    <TextBlock Text="Recent Reports"
+                                               FontSize="16"
+                                               FontWeight="Bold"/>
+                                    <TextBlock Text="12 Generated"
+                                               FontSize="24"
+                                               FontWeight="Bold"
+                                               Foreground="LimeGreen"/>
+                                    <TextBlock Text="This week"
+                                               FontSize="12"
+                                               Opacity="0.7"/>
+                                </StackPanel>
+                            </materialDesign:Card>
+
+                            <materialDesign:Card Margin="8"
+                                                 Padding="16"
+                                                 Height="120">
+                                <StackPanel>
+                                    <TextBlock Text="Storage Usage"
+                                               FontSize="16"
+                                               FontWeight="Bold"/>
+                                    <TextBlock Text="2.4 GB"
+                                               FontSize="24"
+                                               FontWeight="Bold"
+                                               Foreground="DarkOrchid"/>
+                                    <TextBlock Text="Available space"
+                                               FontSize="12"
+                                               Opacity="0.7"/>
+                                </StackPanel>
+                            </materialDesign:Card>
+
+                            <materialDesign:Card Margin="8"
+                                                 Padding="16"
+                                                 Height="120">
+                                <StackPanel>
+                                    <TextBlock Text="System Status"
+                                               FontSize="16"
+                                               FontWeight="Bold"/>
+                                    <TextBlock Text="Online"
+                                               FontSize="24"
+                                               FontWeight="Bold"
+                                               Foreground="#4CAF50"/>
+                                    <TextBlock Text="All systems operational"
+                                               FontSize="12"
+                                               Opacity="0.7"/>
+                                </StackPanel>
+                            </materialDesign:Card>
+                        </UniformGrid>
+                    </StackPanel>
+
+                    <!-- Other Views (Placeholder) -->
+                    <StackPanel Visibility="{Binding CurrentSection, Converter={StaticResource SectionToVisibilityConverter}, ConverterParameter=Configure}"
+                                Margin="24">
+                        <TextBlock Text="?? Configuration"
+                                   FontSize="28"
+                                   FontWeight="Bold"/>
+                        <TextBlock Text="Database connection settings and configuration options."
+                                   FontSize="16"
+                                   Margin="0,16,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel Visibility="{Binding CurrentSection, Converter={StaticResource SectionToVisibilityConverter}, ConverterParameter=Reports}"
+                                Margin="24">
+                        <TextBlock Text="?? Reports"
+                                   FontSize="28"
+                                   FontWeight="Bold"/>
+                        <TextBlock Text="Generate and view analytical reports from your data."
+                                   FontSize="16"
+                                   Margin="0,16,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel Visibility="{Binding CurrentSection, Converter={StaticResource SectionToVisibilityConverter}, ConverterParameter=Storage}"
+                                Margin="24">
+                        <TextBlock Text="?? Storage Management"
+                                   FontSize="28"
+                                   FontWeight="Bold"/>
+                        <TextBlock Text="Manage data storage, backups, and file operations."
+                                   FontSize="16"
+                                   Margin="0,16,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel Visibility="{Binding CurrentSection, Converter={StaticResource SectionToVisibilityConverter}, ConverterParameter=Users}"
+                                Margin="24">
+                        <TextBlock Text="?? User Management"
+                                   FontSize="28"
+                                   FontWeight="Bold"/>
+                        <TextBlock Text="Manage user accounts, permissions, and access control."
+                                   FontSize="16"
+                                   Margin="0,16,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel Visibility="{Binding CurrentSection, Converter={StaticResource SectionToVisibilityConverter}, ConverterParameter=Terminal}"
+                                Margin="24">
+                        <TextBlock Text="?? Terminal Interface"
+                                   FontSize="28"
+                                   FontWeight="Bold"/>
+                        <TextBlock Text="Direct database queries and command-line interface."
+                                   FontSize="16"
+                                   Margin="0,16,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,16 @@
+{
+    "dotnet.defaultSolution": "quewun.sln",
+    "omnisharp.enableRoslynAnalyzers": true,
+    "omnisharp.enableEditorConfigSupport": true,
+    "files.exclude": {
+        "**/bin": true,
+        "**/obj": true
+    },
+    "search.exclude": {
+        "**/bin": true,
+        "**/obj": true
+    },
+    "csharp.semanticHighlighting.enabled": true,
+    "editor.formatOnSave": true,
+    "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true
+}

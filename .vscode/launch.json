@@ -1,0 +1,30 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch DataQuill Desktop",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "Build WPF App",
+            "program": "${workspaceFolder}/DataQuill.Desktop/bin/Debug/net8.0-windows/DataQuill.Desktop.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/DataQuill.Desktop",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "suppressJITOptimizations": true,
+            "enableStepFiltering": false,
+            "justMyCode": false
+        },
+        {
+            "name": "Launch DataQuill Desktop (Release)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "Build WPF App",
+            "program": "${workspaceFolder}/DataQuill.Desktop/bin/Release/net8.0-windows/DataQuill.Desktop.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/DataQuill.Desktop",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        }
+    ]
+}
