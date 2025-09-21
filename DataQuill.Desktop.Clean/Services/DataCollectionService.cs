@@ -9,6 +9,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.Json;
 using System.Timers;
+using System.Windows.Threading;
 
 namespace DataQuillDesktop.Services;
 
@@ -38,8 +39,13 @@ public class DataCollectionService : IDisposable
         _collectionTimer.Elapsed += CollectDataFromSources;
         _collectionTimer.AutoReset = true;
 
-        // Initialize with some sample data
-        InitializeSampleData();
+        Console.WriteLine($"🔧 DataCollectionService created - Timer interval: {_collectionTimer.Interval}ms, AutoReset: {_collectionTimer.AutoReset}");
+
+        // Skip sample data initialization - we want to see real data only
+        // InitializeSampleData();
+
+        // Just add the startup activity
+        AddActivity("System initialized", "DataQuill dashboard started", ActivityType.Success);
     }
 
     /// <summary>
@@ -47,13 +53,29 @@ public class DataCollectionService : IDisposable
     /// </summary>
     public void Start()
     {
-        _collectionTimer.Start();
-        AddActivity("Data collection service started", "Real-time monitoring active", ActivityType.Success);
-    }
+        Console.WriteLine($"🔄 [{DateTime.Now:HH:mm:ss}] Starting DataCollectionService timer (5 second intervals)...");
 
-    /// <summary>
-    /// Stop the data collection service
-    /// </summary>
+        // Clear any sample data to show only real collected data
+        if (System.Windows.Application.Current?.Dispatcher != null)
+        {
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+            {
+                RealtimeData.Clear();
+                Console.WriteLine("🧹 Cleared sample data - will show only real collected data");
+            });
+        }
+
+        // Run one immediate collection cycle to test
+        Console.WriteLine($"🧪 [{DateTime.Now:HH:mm:ss}] Running test collection cycle...");
+        var testEventArgs = new ElapsedEventArgs(DateTime.Now);
+        CollectDataFromSources(this, testEventArgs);
+
+        _collectionTimer.Start();
+        Console.WriteLine($"✅ [{DateTime.Now:HH:mm:ss}] DataCollectionService timer started - Enabled: {_collectionTimer.Enabled}");
+        AddActivity("Data collection service started", "Real-time monitoring active", ActivityType.Success);
+    }    /// <summary>
+         /// Stop the data collection service
+         /// </summary>
     public void Stop()
     {
         _collectionTimer.Stop();
@@ -67,9 +89,13 @@ public class DataCollectionService : IDisposable
     {
         try
         {
+            Console.WriteLine($"🔄 [{DateTime.Now:HH:mm:ss}] Starting data collection cycle...");
+
             var dataSources = await _dbContext.DataSources
                 .Where(ds => ds.IsActive)
                 .ToListAsync();
+
+            Console.WriteLine($"📊 Found {dataSources.Count} active data sources to poll");
 
             int activeConnections = 0;
             int totalDataPoints = 0;
@@ -77,6 +103,7 @@ public class DataCollectionService : IDisposable
 
             foreach (var dataSource in dataSources)
             {
+                Console.WriteLine($"🔍 Processing data source: {dataSource.Name} ({dataSource.InterfaceType})");
                 try
                 {
                     var data = await CollectDataFromSource(dataSource);
@@ -87,16 +114,12 @@ public class DataCollectionService : IDisposable
 
                         foreach (var dataPoint in data)
                         {
-                            RealtimeData.Add(dataPoint);
+                            SafeAddRealtimeData(dataPoint);
                             DataPointReceived?.Invoke(this, dataPoint);
                             dataProcessed += EstimateDataSize(dataPoint);
                         }
 
-                        // Keep only last 1000 data points for memory management
-                        while (RealtimeData.Count > 1000)
-                        {
-                            RealtimeData.RemoveAt(0);
-                        }
+                        // Note: RealtimeData cleanup is now handled in SafeAddRealtimeData
 
                         AddActivity($"Data received from {dataSource.Name}",
                                   $"{data.Count} data points collected",
@@ -113,9 +136,12 @@ public class DataCollectionService : IDisposable
 
             // Update metrics
             UpdateMetrics(activeConnections, totalDataPoints, dataProcessed);
+
+            Console.WriteLine($"✅ [{DateTime.Now:HH:mm:ss}] Collection cycle completed - Active: {activeConnections}, Data points: {totalDataPoints}, Total in memory: {RealtimeData.Count}");
         }
         catch (Exception ex)
         {
+            Console.WriteLine($"❌ Data collection cycle failed: {ex.Message}");
             AddActivity("Data collection error", ex.Message, ActivityType.Error);
         }
     }
@@ -253,6 +279,8 @@ public class DataCollectionService : IDisposable
 
         try
         {
+            Console.WriteLine($"🔌 Connecting to Modbus TCP at {config.Host}:{config.Port}, Slave {config.SlaveId}");
+
             var client = new ModbusTcpClient();
 
             await Task.Run(() =>
@@ -263,18 +291,60 @@ public class DataCollectionService : IDisposable
 
             var slaveId = (byte)config.SlaveId;
 
-            // Try to read some holding registers for now
-            try
+            // Check if we have configured Modbus registers
+            if (config.ModbusRegisters?.Count > 0)
             {
-                // Simple test - just try to connect and generate some data
-                // Real implementation would read actual registers
-                for (int i = 0; i < 5; i++)
+                Console.WriteLine($"📖 Reading {config.ModbusRegisters.Count} configured Modbus registers...");
+
+                foreach (var regConfig in config.ModbusRegisters)
+                {
+                    try
+                    {
+                        var value = await ReadModbusRegister(client, slaveId, regConfig);
+
+                        dataPoints.Add(new DataPoint
+                        {
+                            DataSourceId = dataSource.Id,
+                            TagName = regConfig.TagName,
+                            Value = value,
+                            Timestamp = DateTime.Now,
+                            DataType = regConfig.DataFormat.ToString(),
+                            Unit = regConfig.Units,
+                            Quality = "Good"
+                        });
+                    }
+                    catch (Exception regEx)
+                    {
+                        Console.WriteLine($"⚠️ Failed to read register {regConfig.TagName}: {regEx.Message}");
+
+                        dataPoints.Add(new DataPoint
+                        {
+                            DataSourceId = dataSource.Id,
+                            TagName = regConfig.TagName,
+                            Value = 0,
+                            Timestamp = DateTime.Now,
+                            DataType = regConfig.DataFormat.ToString(),
+                            Unit = regConfig.Units,
+                            Quality = "Bad"
+                        });
+                    }
+                }
+            }
+            else
+            {
+                // Fallback to basic register reading if no configuration exists
+                Console.WriteLine($"📖 No register configuration found, reading default holding registers...");
+
+                var registers = client.ReadHoldingRegisters(slaveId, 0, 10);
+                Console.WriteLine($"✅ Successfully read {registers.Length} registers from Modbus device");
+
+                for (int i = 0; i < registers.Length; i++)
                 {
                     dataPoints.Add(new DataPoint
                     {
                         DataSourceId = dataSource.Id,
                         TagName = $"MODBUS_HR_{i:D3}",
-                        Value = _random.NextDouble() * 1000, // Simulated for now
+                        Value = registers[i],
                         Timestamp = DateTime.Now,
                         DataType = "UInt16",
                         Unit = "register",
@@ -282,21 +352,76 @@ public class DataCollectionService : IDisposable
                     });
                 }
             }
-            catch (Exception)
-            {
-                // If reading fails, still return connection info
-            }
 
             client.Disconnect();
 
+            Console.WriteLine($"📊 Created {dataPoints.Count} data points from Modbus registers");
             AddActivity($"Modbus TCP Data Collection", $"Read {dataPoints.Count} data points from {dataSource.Name} (Slave {slaveId})", ActivityType.Success);
         }
         catch (Exception ex)
         {
+            Console.WriteLine($"⚠️ Modbus TCP collection failed: {ex.Message}");
             AddActivity($"Modbus TCP Collection Failed", $"Failed to read from {dataSource.Name} (Slave {config.SlaveId}): {ex.Message}", ActivityType.Error);
         }
 
         return dataPoints;
+    }
+
+    /// <summary>
+    /// Read a single Modbus register with proper data type conversion
+    /// </summary>
+    private async Task<double> ReadModbusRegister(ModbusTcpClient client, byte slaveId, ModbusRegisterConfig regConfig)
+    {
+        await Task.CompletedTask; // For async compatibility
+
+        switch (regConfig.DataFormat)
+        {
+            case ModbusDataFormat.UInt16:
+                var uint16Val = client.ReadHoldingRegisters(slaveId, (ushort)regConfig.StartAddress, 1)[0];
+                return (uint16Val * regConfig.Scale) + regConfig.Offset;
+
+            case ModbusDataFormat.SInt16:
+                var sint16Raw = client.ReadHoldingRegisters(slaveId, (ushort)regConfig.StartAddress, 1)[0];
+                var sint16Val = (short)sint16Raw;
+                return (sint16Val * regConfig.Scale) + regConfig.Offset;
+
+            case ModbusDataFormat.UInt32:
+                var uint32Regs = client.ReadHoldingRegisters(slaveId, (ushort)regConfig.StartAddress, 2);
+                var uint32Val = (uint)(uint32Regs[0] << 16) | uint32Regs[1];
+                return (uint32Val * regConfig.Scale) + regConfig.Offset;
+
+            case ModbusDataFormat.SInt32:
+                var sint32Regs = client.ReadHoldingRegisters(slaveId, (ushort)regConfig.StartAddress, 2);
+                var sint32Val = (int)(sint32Regs[0] << 16) | sint32Regs[1];
+                return (sint32Val * regConfig.Scale) + regConfig.Offset;
+
+            case ModbusDataFormat.Float32:
+                var float32Regs = client.ReadHoldingRegisters(slaveId, (ushort)regConfig.StartAddress, 2);
+                var float32Bytes = new byte[4];
+                var reg1Bytes = BitConverter.GetBytes((ushort)float32Regs[0]);
+                var reg2Bytes = BitConverter.GetBytes((ushort)float32Regs[1]);
+                float32Bytes[0] = reg2Bytes[0];
+                float32Bytes[1] = reg2Bytes[1];
+                float32Bytes[2] = reg1Bytes[0];
+                float32Bytes[3] = reg1Bytes[1];
+                var float32Val = BitConverter.ToSingle(float32Bytes, 0);
+                return (float32Val * regConfig.Scale) + regConfig.Offset;
+
+            case ModbusDataFormat.Float32Swap:
+                var floatSwapRegs = client.ReadHoldingRegisters(slaveId, (ushort)regConfig.StartAddress, 2);
+                var floatSwapBytes = new byte[4];
+                var regS1Bytes = BitConverter.GetBytes((ushort)floatSwapRegs[1]);
+                var regS2Bytes = BitConverter.GetBytes((ushort)floatSwapRegs[0]);
+                floatSwapBytes[0] = regS2Bytes[0];
+                floatSwapBytes[1] = regS2Bytes[1];
+                floatSwapBytes[2] = regS1Bytes[0];
+                floatSwapBytes[3] = regS1Bytes[1];
+                var floatSwapVal = BitConverter.ToSingle(floatSwapBytes, 0);
+                return (floatSwapVal * regConfig.Scale) + regConfig.Offset;
+
+            default:
+                throw new ArgumentException($"Unsupported data format: {regConfig.DataFormat}");
+        }
     }
 
     /// <summary>
@@ -452,16 +577,52 @@ public class DataCollectionService : IDisposable
             Timestamp = DateTime.Now
         };
 
-        // Add to beginning of collection
-        RecentActivities.Insert(0, activity);
-
-        // Keep only last 20 activities
-        while (RecentActivities.Count > 20)
+        // Must update ObservableCollection on UI thread
+        if (System.Windows.Application.Current?.Dispatcher != null)
         {
-            RecentActivities.RemoveAt(RecentActivities.Count - 1);
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+            {
+                // Add to beginning of collection
+                RecentActivities.Insert(0, activity);
+
+                // Keep only last 20 activities
+                while (RecentActivities.Count > 20)
+                {
+                    RecentActivities.RemoveAt(RecentActivities.Count - 1);
+                }
+            });
+        }
+        else
+        {
+            // Fallback for cases where dispatcher is not available
+            Console.WriteLine($"⚠️ No dispatcher available for activity: {title}");
         }
 
         ActivityOccurred?.Invoke(this, activity);
+    }
+
+    /// <summary>
+    /// Safely add data point to RealtimeData collection on UI thread
+    /// </summary>
+    private void SafeAddRealtimeData(DataPoint dataPoint)
+    {
+        if (System.Windows.Application.Current?.Dispatcher != null)
+        {
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+            {
+                RealtimeData.Add(dataPoint);
+
+                // Keep only last 1000 data points for memory management
+                while (RealtimeData.Count > 1000)
+                {
+                    RealtimeData.RemoveAt(0);
+                }
+            });
+        }
+        else
+        {
+            Console.WriteLine($"⚠️ No dispatcher available for data point: {dataPoint.TagName}");
+        }
     }
 
     /// <summary>
@@ -487,16 +648,17 @@ public class DataCollectionService : IDisposable
         // Add some initial sample data points
         for (int i = 0; i < 10; i++)
         {
-            RealtimeData.Add(new DataPoint
+            var sampleDataPoint = new DataPoint
             {
                 DataSourceId = 1,
                 TagName = $"SAMPLE_TAG_{i + 1}",
                 Value = _random.NextDouble() * 100,
                 Timestamp = DateTime.Now.AddMinutes(-i),
                 DataType = "Double",
-                Unit = "units",
-                Quality = "Good"
-            });
+                Unit = "units"
+            };
+
+            SafeAddRealtimeData(sampleDataPoint);
         }
     }
 

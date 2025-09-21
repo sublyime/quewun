@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.IO;
 using DataQuillDesktop.Services;
 using DataQuillDesktop.ViewModels;
 using DataQuillDesktop.Commands;
@@ -19,74 +20,86 @@ namespace DataQuillDesktop
     {
         private IntegratedBackendService? _backendService;
 
+        // Public property to allow debugging access
+        public IntegratedBackendService? BackendService => _backendService;
+
         public MainWindow()
         {
             try
             {
-                Console.WriteLine("=== DataQuill Desktop Starting ===");
+                Console.WriteLine("🚀 DataQuill Desktop starting...");
+                InitializeComponent();
+                Console.WriteLine("✅ InitializeComponent completed");
 
-                // Ensure console is available for debugging
+                // Initialize database first
                 try
                 {
-                    AllocConsole();
+                    InitializeSampleDataSources();
+                    Console.WriteLine("✅ Database initialization completed");
                 }
-                catch
+                catch (Exception dbEx)
                 {
-                    // Console allocation may fail in some environments, continue anyway
+                    Console.WriteLine($"⚠️ Database initialization failed: {dbEx.Message}");
+                    Console.WriteLine($"Stack trace: {dbEx.StackTrace}");
                 }
 
-                Console.WriteLine("About to initialize XAML components...");
-                InitializeComponent();
-                Console.WriteLine("✅ XAML loaded successfully");
+                // Initialize backend services
+                try
+                {
+                    InitializeBackendServices();
+                    Console.WriteLine("✅ Backend services initialization completed");
+                }
+                catch (Exception backendEx)
+                {
+                    Console.WriteLine($"⚠️ Backend services initialization failed: {backendEx.Message}");
+                    Console.WriteLine($"Stack trace: {backendEx.StackTrace}");
+                }
 
-                Console.WriteLine("Re-enabling database services only...");
-
-                // Re-enable database initialization (this worked)
-                InitializeDatabaseServices();
-
-                // Temporarily disable backend initialization (this causes crash)
-                // InitializeBackendServices();
-
-                Console.WriteLine("Setting up minimal navigation...");
-
-                // Initialize to Dashboard with fallback
+                // Load the initial Dashboard view
                 try
                 {
                     NavigateToSection("Dashboard");
-                    Console.WriteLine("✅ Navigation initialized successfully");
+                    Console.WriteLine("✅ Initial Dashboard navigation completed");
                 }
                 catch (Exception navEx)
                 {
-                    Console.WriteLine($"❌ Navigation failed: {navEx.Message}");
-                    // Create minimal content
-                    MainContentControl.Content = new System.Windows.Controls.TextBlock
-                    {
-                        Text = "DataQuill Desktop - Minimal Mode\n\nServices temporarily disabled for debugging.",
-                        FontSize = 16,
-                        TextAlignment = TextAlignment.Center,
-                        VerticalAlignment = VerticalAlignment.Center,
-                        Margin = new Thickness(20)
-                    };
-                }
+                    Console.WriteLine($"⚠️ Initial navigation failed: {navEx.Message}");
+                    Console.WriteLine($"Stack trace: {navEx.StackTrace}");
 
-                Console.WriteLine("✅ Window initialized successfully!");
-                Console.WriteLine("=== DataQuill Desktop Ready (Debug Mode) ===");
+                    // Fallback: show a simple message
+                    try
+                    {
+                        MainContentControl.Content = new System.Windows.Controls.TextBlock
+                        {
+                            Text = "DataQuill Desktop - Safe Mode\nNavigation failed, but application is running.",
+                            FontSize = 16,
+                            Margin = new Thickness(20),
+                            TextWrapping = TextWrapping.Wrap
+                        };
+                    }
+                    catch (Exception fallbackEx)
+                    {
+                        Console.WriteLine($"⚠️ Even fallback content failed: {fallbackEx.Message}");
+                    }
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Critical error during initialization: {ex.Message}");
+                Console.WriteLine($"❌ Critical error in MainWindow constructor: {ex.Message}");
                 Console.WriteLine($"Stack trace: {ex.StackTrace}");
 
+                // Try to show error to user
                 try
                 {
-                    MessageBox.Show($"Critical startup error: {ex.Message}\n\nStack trace:\n{ex.StackTrace}",
-                                  "DataQuill Desktop", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"Application startup failed: {ex.Message}", "DataQuill Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch
                 {
-                    // Even MessageBox failed, write to console
-                    Console.WriteLine("❌ MessageBox also failed - critical system error");
+                    Console.WriteLine("❌ Could not even show error message to user");
                 }
+
+                // Don't let the app crash silently
+                Environment.Exit(1);
             }
         }
 
@@ -148,6 +161,17 @@ namespace DataQuillDesktop
                 if (context.DataSources.Any())
                 {
                     Console.WriteLine("ℹ️ Data sources already configured");
+
+                    // Update existing Modbus source to have correct protocol type
+                    var existingModbusSource = context.DataSources.FirstOrDefault(ds => ds.Name == "Test Modbus Device");
+                    if (existingModbusSource != null && existingModbusSource.ProtocolType != ProtocolType.ModbusTCP)
+                    {
+                        Console.WriteLine("🔧 Updating Modbus source protocol type...");
+                        existingModbusSource.ProtocolType = ProtocolType.ModbusTCP;
+                        context.SaveChanges();
+                        Console.WriteLine("✅ Modbus source protocol type updated");
+                    }
+
                     return;
                 }
 
@@ -158,6 +182,7 @@ namespace DataQuillDesktop
                 {
                     Name = "Test Modbus Device",
                     InterfaceType = InterfaceType.TCP,
+                    ProtocolType = ProtocolType.ModbusTCP,
                     IsActive = true,
                     Configuration = new DataSourceConfiguration
                     {
@@ -195,17 +220,81 @@ namespace DataQuillDesktop
         {
             try
             {
-                Console.WriteLine("🔄 Initializing backend services...");
-                _backendService = new IntegratedBackendService();
+                Console.WriteLine("🔄 Initializing backend services with detailed error tracking...");
 
-                // Start backend services asynchronously
-                _ = StartBackendServicesAsync();
+                // Also write to a log file for debugging
+                var logPath = Path.Combine(Directory.GetCurrentDirectory(), "backend_init.log");
+                File.AppendAllText(logPath, $"[{DateTime.Now}] Starting backend initialization\n");
 
-                Console.WriteLine("✅ Backend services initialized");
+                try
+                {
+                    Console.WriteLine("🔄 Creating IntegratedBackendService...");
+                    File.AppendAllText(logPath, $"[{DateTime.Now}] Creating IntegratedBackendService...\n");
+
+                    _backendService = new IntegratedBackendService();
+
+                    Console.WriteLine("✅ IntegratedBackendService created successfully");
+                    File.AppendAllText(logPath, $"[{DateTime.Now}] IntegratedBackendService created successfully\n");
+                }
+                catch (Exception serviceEx)
+                {
+                    var errorMsg = $"❌ Failed to create IntegratedBackendService: {serviceEx.Message}";
+                    var stackMsg = $"Stack trace: {serviceEx.StackTrace}";
+                    var innerMsg = $"Inner exception: {serviceEx.InnerException?.Message}";
+
+                    Console.WriteLine(errorMsg);
+                    Console.WriteLine(innerMsg);
+                    Console.WriteLine(stackMsg);
+
+                    File.AppendAllText(logPath, $"[{DateTime.Now}] {errorMsg}\n");
+                    File.AppendAllText(logPath, $"[{DateTime.Now}] {innerMsg}\n");
+                    File.AppendAllText(logPath, $"[{DateTime.Now}] {stackMsg}\n");
+
+                    _backendService = null;
+                    return;
+                }
+
+                // Try to start services only if creation succeeded
+                if (_backendService != null)
+                {
+                    try
+                    {
+                        Console.WriteLine("🔄 Starting backend services asynchronously...");
+                        File.AppendAllText(logPath, $"[{DateTime.Now}] Starting backend services...\n");
+
+                        _ = StartBackendServicesAsync();
+
+                        Console.WriteLine("✅ Backend services start initiated");
+                        File.AppendAllText(logPath, $"[{DateTime.Now}] Backend services start initiated\n");
+                    }
+                    catch (Exception startEx)
+                    {
+                        var errorMsg = $"❌ Failed to start backend services: {startEx.Message}";
+                        Console.WriteLine(errorMsg);
+                        Console.WriteLine($"Stack trace: {startEx.StackTrace}");
+                        File.AppendAllText(logPath, $"[{DateTime.Now}] {errorMsg}\n");
+                        File.AppendAllText(logPath, $"[{DateTime.Now}] Stack trace: {startEx.StackTrace}\n");
+                        // Keep the service but note it couldn't start
+                    }
+                }
+
+                Console.WriteLine("✅ Backend services initialization completed");
+                File.AppendAllText(logPath, $"[{DateTime.Now}] Backend services initialization completed\n");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Backend services initialization failed: {ex.Message}");
+                var errorMsg = $"❌ Backend services initialization failed: {ex.Message}";
+                Console.WriteLine(errorMsg);
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+
+                try
+                {
+                    var logPath = Path.Combine(Directory.GetCurrentDirectory(), "backend_init.log");
+                    File.AppendAllText(logPath, $"[{DateTime.Now}] {errorMsg}\n");
+                    File.AppendAllText(logPath, $"[{DateTime.Now}] Stack trace: {ex.StackTrace}\n");
+                }
+                catch { /* Ignore logging errors */ }
+
                 _backendService = null;
             }
         }
@@ -254,6 +343,25 @@ namespace DataQuillDesktop
             // Try to update the welcome text at the top (may not work if controls aren't ready)
             try { this.Title = $"DataQuill Desktop - {section}"; } catch { }
 
+            // Force clear the content area if navigating to Dashboard (to force refresh)
+            if (section == "Dashboard")
+            {
+                try
+                {
+                    var contentControl = this.FindName("MainContentControl") as ContentControl;
+                    if (contentControl != null)
+                    {
+                        contentControl.Content = null;
+                        System.GC.Collect(); // Force cleanup of old ViewModels
+                        Console.WriteLine("🔄 Dashboard content cleared for refresh");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"⚠️ Error clearing Dashboard content: {ex.Message}");
+                }
+            }
+
             // Create content based on section - now loading actual Views with live data
             UserControl content = CreateViewForSection(section);
 
@@ -289,6 +397,16 @@ namespace DataQuillDesktop
                 {
                     case "Dashboard":
                         Console.WriteLine("Loading DashboardView...");
+                        Console.WriteLine($"Backend service status: {(_backendService != null ? "Available" : "NULL")}");
+
+                        // Log to file as well
+                        try
+                        {
+                            var logPath = Path.Combine(Directory.GetCurrentDirectory(), "backend_init.log");
+                            File.AppendAllText(logPath, $"[{DateTime.Now}] Dashboard creation - Backend service: {(_backendService != null ? "Available" : "NULL")}\n");
+                        }
+                        catch { }
+
                         view = new DashboardView();
 
                         // Connect to the IntegratedBackendService for real data
@@ -296,37 +414,62 @@ namespace DataQuillDesktop
                         {
                             try
                             {
+                                Console.WriteLine("🔄 Attempting to create DashboardViewModelWrapper...");
+
+                                // Log details about the backend service
+                                Console.WriteLine($"Backend service type: {_backendService.GetType().Name}");
+                                Console.WriteLine($"Backend service connected: {_backendService.IsConnected}");
+                                Console.WriteLine($"Backend service status: {_backendService.Status}");
+
                                 // Create a DashboardViewModel that uses the IntegratedBackendService's data
-                                view.DataContext = new DashboardViewModelWrapper(_backendService);
+                                var dashboardWrapper = new DashboardViewModelWrapper(_backendService);
+                                view.DataContext = dashboardWrapper;
                                 Console.WriteLine("✅ Dashboard connected to IntegratedBackendService for real data");
+                                Console.WriteLine($"✅ Dashboard DataContext type: {view.DataContext.GetType().Name}");
+                                Console.WriteLine($"✅ Dashboard DataContext CollectionStatusText: {((DashboardViewModelWrapper)view.DataContext).CollectionStatusText}");
+
+                                try
+                                {
+                                    var logPath = Path.Combine(Directory.GetCurrentDirectory(), "backend_init.log");
+                                    File.AppendAllText(logPath, $"[{DateTime.Now}] Dashboard connected to real backend service successfully - DataContext: {view.DataContext.GetType().Name}\n");
+                                }
+                                catch { }
                             }
                             catch (Exception ex)
                             {
                                 Console.WriteLine($"⚠️ Dashboard wrapper failed: {ex.Message}, using direct service");
+                                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+                                Console.WriteLine($"Inner exception: {ex.InnerException?.Message}");
+
+                                try
+                                {
+                                    var logPath = Path.Combine(Directory.GetCurrentDirectory(), "backend_init.log");
+                                    File.AppendAllText(logPath, $"[{DateTime.Now}] Dashboard wrapper failed: {ex.Message} - Inner: {ex.InnerException?.Message}\n");
+                                }
+                                catch { }
+
                                 // Fallback: create a simple ViewModel that exposes the backend service data
                                 view.DataContext = CreateDashboardFallback(_backendService);
+                                Console.WriteLine($"✅ Fallback DataContext type: {view.DataContext.GetType().Name}");
                             }
                         }
                         else
                         {
                             Console.WriteLine("⚠️ Backend service not available, creating simple dashboard");
-                            // Create a simple dashboard without backend dependency
-                            view.DataContext = new SimpleDashboardViewModel();
-                        }
-                        {
-                            Console.WriteLine("⚠️ No backend service available, using static fallback");
-                            view.DataContext = new
+
+                            try
                             {
-                                CollectionStatusText = "🔴 Backend service not available",
-                                DataSourcesSummary = "Service initialization failed",
-                                IsCollectionRunning = false,
-                                StartCollectionCommand = new RelayCommand(() =>
-                                {
-                                    Console.WriteLine("Start Collection clicked - backend service unavailable");
-                                    MessageBox.Show("Backend services are not available.", "DataQuill", MessageBoxButton.OK, MessageBoxImage.Warning);
-                                })
-                            };
+                                var logPath = Path.Combine(Directory.GetCurrentDirectory(), "backend_init.log");
+                                File.AppendAllText(logPath, $"[{DateTime.Now}] Backend service not available - using fallback\n");
+                            }
+                            catch { }
+
+                            // Create a simple dashboard without backend dependency but with reference to check service
+                            view.DataContext = new SimpleDashboardViewModel(this);
+                            Console.WriteLine($"✅ SimpleDashboardViewModel DataContext type: {view.DataContext.GetType().Name}");
+                            Console.WriteLine($"✅ SimpleDashboardViewModel CollectionStatusText: {((SimpleDashboardViewModel)view.DataContext).CollectionStatusText}");
                         }
+                        break;
                         break;
 
                     case "DataSources":
@@ -507,8 +650,15 @@ namespace DataQuillDesktop
 
         public class SimpleDashboardViewModel : INotifyPropertyChanged
         {
-            public string CollectionStatusText => "🔴 Backend service disabled";
-            public string DataSourcesSummary => "Services temporarily disabled for debugging";
+            private readonly MainWindow? _mainWindow;
+
+            public SimpleDashboardViewModel(MainWindow? mainWindow = null)
+            {
+                _mainWindow = mainWindow;
+            }
+
+            public string CollectionStatusText => $"🔴 Backend service status: {(_mainWindow?.BackendService != null ? "Available but not connected" : "NULL")}";
+            public string DataSourcesSummary => "Services temporarily using fallback - click Refresh to reconnect";
             public bool IsCollectionRunning => false;
             public ObservableCollection<object> RealtimeData => new ObservableCollection<object>();
             public ObservableCollection<object> RecentActivities => new ObservableCollection<object>();
@@ -516,19 +666,26 @@ namespace DataQuillDesktop
 
             public RelayCommand StartCollectionCommand => new RelayCommand(() =>
             {
-                Console.WriteLine("⚠️ Start Collection disabled - backend services not initialized");
-                MessageBox.Show("Start Collection is temporarily disabled while debugging backend services.",
-                              "Feature Disabled", MessageBoxButton.OK, MessageBoxImage.Information);
+                Console.WriteLine("⚠️ Start Collection using fallback - attempting to reconnect to backend services");
+                if (_mainWindow?.BackendService != null)
+                {
+                    MessageBox.Show("Backend service is available! Dashboard needs to be refreshed. Try clicking Dashboard again.",
+                                  "Service Available", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Backend service is not initialized. Check console for initialization errors.",
+                                  "Service Unavailable", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
             });
 
             public RelayCommand StopCollectionCommand => new RelayCommand(() =>
             {
-                Console.WriteLine("⚠️ Stop Collection disabled - backend services not initialized");
+                Console.WriteLine("⚠️ Stop Collection disabled - backend services not connected");
             });
 
             public event PropertyChangedEventHandler? PropertyChanged;
         }
-
         public class SimpleDashboardMetrics
         {
             public int ActiveConnections => 0;
@@ -587,13 +744,36 @@ namespace DataQuillDesktop
         }
 
         // Simple wrapper class for DashboardViewModel functionality
-        public class DashboardViewModelWrapper
+        public class DashboardViewModelWrapper : INotifyPropertyChanged
         {
             private readonly IntegratedBackendService _backendService;
 
             public DashboardViewModelWrapper(IntegratedBackendService backendService)
             {
                 _backendService = backendService;
+
+                // Subscribe to data changes to update UI
+                _backendService.RealtimeData.CollectionChanged += (s, e) =>
+                {
+                    OnPropertyChanged(nameof(RecentDataPoints));
+                    OnPropertyChanged(nameof(ChartData));
+                };
+
+                // Log detailed information about the backend service
+                Console.WriteLine("✅ DashboardViewModelWrapper created successfully");
+                Console.WriteLine($"Backend service type: {backendService?.GetType().Name}");
+                Console.WriteLine($"Backend service status: {backendService?.Status}");
+                Console.WriteLine($"Backend service connected: {backendService?.IsConnected}");
+                Console.WriteLine($"🔍 CollectionStatusText will be: '{CollectionStatusText}'");
+                Console.WriteLine($"🔍 DataSourcesSummary will be: '{DataSourcesSummary}'");
+
+                try
+                {
+                    var logPath = Path.Combine(Directory.GetCurrentDirectory(), "backend_init.log");
+                    File.AppendAllText(logPath, $"[{DateTime.Now}] DashboardViewModelWrapper created with backend service: {backendService?.GetType().Name}, Status: {backendService?.Status}, Connected: {backendService?.IsConnected}\n");
+                    File.AppendAllText(logPath, $"[{DateTime.Now}] CollectionStatusText: '{CollectionStatusText}', DataSourcesSummary: '{DataSourcesSummary}'\n");
+                }
+                catch { }
             }
 
             public string CollectionStatusText => _backendService.IsConnected ? "🟢 Live Data Active" : "🔴 Disconnected";
@@ -602,6 +782,30 @@ namespace DataQuillDesktop
             public ObservableCollection<DataPoint> RealtimeData => _backendService.RealtimeData;
             public ObservableCollection<ActivityEvent> RecentActivities => _backendService.RecentActivities;
             public DashboardMetrics Metrics => _backendService.Metrics;
+
+            // Property for Dashboard XAML binding - shows latest data points
+            public ObservableCollection<DataPoint> RecentDataPoints => _backendService.RealtimeData;
+
+            // Property for simple chart data - shows recent values as chart points
+            public ObservableCollection<object> ChartData
+            {
+                get
+                {
+                    var chartPoints = new ObservableCollection<object>();
+                    var recentData = _backendService.RealtimeData.TakeLast(10).ToList();
+
+                    foreach (var point in recentData)
+                    {
+                        chartPoints.Add(new
+                        {
+                            Label = point.TagName?.Substring(point.TagName.Length - 3) ?? "?",
+                            Value = Math.Min(Convert.ToDouble(point.Value) / 10, 130) // Scale for chart height
+                        });
+                    }
+
+                    return chartPoints;
+                }
+            }
 
             public RelayCommand StartCollectionCommand => new RelayCommand(async () =>
             {
@@ -657,6 +861,13 @@ namespace DataQuillDesktop
                     Console.WriteLine($"❌ Failed to stop live collection: {ex.Message}");
                 }
             });
+
+            public event PropertyChangedEventHandler? PropertyChanged;
+
+            protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 

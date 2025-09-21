@@ -1,0 +1,10 @@
+[9/21/2025 10:03:40 AM] Starting backend initialization
+[9/21/2025 10:03:40 AM] Creating IntegratedBackendService...
+[9/21/2025 10:03:40 AM] IntegratedBackendService created successfully
+[9/21/2025 10:03:40 AM] Starting backend services...
+[9/21/2025 10:03:40 AM] Backend services start initiated
+[9/21/2025 10:03:40 AM] Backend services initialization completed
+[9/21/2025 10:03:40 AM] Dashboard creation - Backend service: Available
+[9/21/2025 10:03:40 AM] DashboardViewModelWrapper created with backend service: IntegratedBackendService, Status: Stopped, Connected: False
+[9/21/2025 10:03:40 AM] CollectionStatusText: '🔴 Disconnected', DataSourcesSummary: 'Status: Stopped'
+[9/21/2025 10:03:40 AM] Dashboard connected to real backend service successfully - DataContext: DashboardViewModelWrapper

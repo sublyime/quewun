@@ -13,6 +13,28 @@ namespace DataQuillDesktop.Models
         USB
     }
 
+    // Modbus-specific enums and classes
+    public enum ModbusDataFormat
+    {
+        UInt16,      // Unsigned 16-bit integer (1 register)
+        SInt16,      // Signed 16-bit integer (1 register)
+        UInt32,      // Unsigned 32-bit integer (2 registers)
+        SInt32,      // Signed 32-bit integer (2 registers)
+        Float32,     // 32-bit float (2 registers)
+        Float32Swap  // 32-bit float with swapped registers (2 registers)
+    }
+
+    public class ModbusRegisterConfig
+    {
+        public string TagName { get; set; } = "";
+        public int StartAddress { get; set; }
+        public ModbusDataFormat DataFormat { get; set; } = ModbusDataFormat.UInt16;
+        public string Description { get; set; } = "";
+        public double Scale { get; set; } = 1.0;
+        public double Offset { get; set; } = 0.0;
+        public string Units { get; set; } = "";
+    }
+
     public enum ProtocolType
     {
         ModbusTCP,
@@ -296,6 +318,22 @@ namespace DataQuillDesktop.Models
         {
             get => _customParameters;
             set => SetProperty(ref _customParameters, value);
+        }
+
+        // Modbus-specific configuration
+        private List<ModbusRegisterConfig> _modbusRegisters = new();
+        private ModbusDataFormat _defaultDataFormat = ModbusDataFormat.UInt16;
+
+        public List<ModbusRegisterConfig> ModbusRegisters
+        {
+            get => _modbusRegisters;
+            set => SetProperty(ref _modbusRegisters, value);
+        }
+
+        public ModbusDataFormat DefaultDataFormat
+        {
+            get => _defaultDataFormat;
+            set => SetProperty(ref _defaultDataFormat, value);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
