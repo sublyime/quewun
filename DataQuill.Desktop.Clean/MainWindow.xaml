@@ -12,12 +12,10 @@
     <Window.Resources>
         <!-- Converters -->
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <!-- Custom Converters -->
-        <converters:BooleanToColorConverter x:Key="BoolToColorConverter"/>
 
         <!-- Sidebar Button Style -->
         <Style x:Key="SidebarButtonStyle"
-                TargetType="Button">
+               TargetType="Button">
             <Setter Property="Background"
                     Value="Transparent"/>
             <Setter Property="Foreground"
@@ -40,16 +38,16 @@
                         <Border Background="{TemplateBinding Background}"
                                 Padding="{TemplateBinding Padding}">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                    VerticalAlignment="Center"/>
+                                              VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver"
-                                    Value="True">
+                                     Value="True">
                                 <Setter Property="Background"
                                         Value="#3498db"/>
                             </Trigger>
                             <Trigger Property="IsPressed"
-                                    Value="True">
+                                     Value="True">
                                 <Setter Property="Background"
                                         Value="#2980b9"/>
                             </Trigger>
@@ -74,15 +72,15 @@
                     <!-- Logo/Title -->
                     <StackPanel Margin="20,10,20,30">
                         <TextBlock Text="DataQuill"
-                                FontSize="20"
-                                FontWeight="Bold"
-                                Foreground="White"
-                                HorizontalAlignment="Center"/>
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center"/>
                         <TextBlock Text="Desktop"
-                                FontSize="14"
-                                Foreground="#bdc3c7"
-                                HorizontalAlignment="Center"
-                                Margin="0,5,0,0"/>
+                                   FontSize="14"
+                                   Foreground="#bdc3c7"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,5,0,0"/>
                     </StackPanel>
 
                     <!-- Navigation Buttons -->
@@ -95,8 +93,8 @@
                                     Click="DashboardBtn_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="📊"
-                                            FontSize="16"
-                                            Margin="0,0,10,0"/>
+                                               FontSize="16"
+                                               Margin="0,0,10,0"/>
                                     <TextBlock Text="Dashboard"/>
                                 </StackPanel>
                             </Button>
@@ -107,8 +105,8 @@
                                     Click="DataSourcesBtn_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="🔌"
-                                            FontSize="16"
-                                            Margin="0,0,10,0"/>
+                                               FontSize="16"
+                                               Margin="0,0,10,0"/>
                                     <TextBlock Text="Data Sources"/>
                                 </StackPanel>
                             </Button>
@@ -119,8 +117,8 @@
                                     Click="StorageBtn_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="💾"
-                                            FontSize="16"
-                                            Margin="0,0,10,0"/>
+                                               FontSize="16"
+                                               Margin="0,0,10,0"/>
                                     <TextBlock Text="Storage"/>
                                 </StackPanel>
                             </Button>
@@ -131,8 +129,8 @@
                                     Click="ReportsBtn_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="📊"
-                                            FontSize="16"
-                                            Margin="0,0,10,0"/>
+                                               FontSize="16"
+                                               Margin="0,0,10,0"/>
                                     <TextBlock Text="Reports"/>
                                 </StackPanel>
                             </Button>
@@ -143,8 +141,8 @@
                                     Click="TerminalBtn_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="💻"
-                                            FontSize="16"
-                                            Margin="0,0,10,0"/>
+                                               FontSize="16"
+                                               Margin="0,0,10,0"/>
                                     <TextBlock Text="Terminal"/>
                                 </StackPanel>
                             </Button>
@@ -155,8 +153,8 @@
                                     Click="UserAdminBtn_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="👥"
-                                            FontSize="16"
-                                            Margin="0,0,10,0"/>
+                                               FontSize="16"
+                                               Margin="0,0,10,0"/>
                                     <TextBlock Text="User Admin"/>
                                 </StackPanel>
                             </Button>
@@ -167,8 +165,8 @@
                                     Click="UsersBtn_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="👤"
-                                            FontSize="16"
-                                            Margin="0,0,10,0"/>
+                                               FontSize="16"
+                                               Margin="0,0,10,0"/>
                                     <TextBlock Text="Users"/>
                                 </StackPanel>
                             </Button>
@@ -194,36 +192,36 @@
                     Padding="20">
                 <Grid>
                     <TextBlock x:Name="WelcomeText"
-                            Text="Welcome to DataQuill Desktop"
-                            FontSize="16"
-                            FontWeight="Medium"
-                            VerticalAlignment="Center"
-                            Foreground="#495057"/>
+                               Text="Welcome to DataQuill Desktop"
+                               FontSize="16"
+                               FontWeight="Medium"
+                               VerticalAlignment="Center"
+                               Foreground="#495057"/>
                 </Grid>
             </Border>
 
             <!-- Content Area -->
             <ContentControl Grid.Row="1"
-                    Margin="20"
-                    x:Name="MainContentControl">
+                            Margin="20"
+                            x:Name="MainContentControl">
                 <!-- Default Welcome Content -->
                 <Border Background="LightGray"
                         CornerRadius="10"
                         Padding="20">
                     <StackPanel HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
+                                VerticalAlignment="Center">
                         <TextBlock Text="Welcome to DataQuill Desktop"
-                                FontSize="24"
-                                HorizontalAlignment="Center"
-                                Margin="0,0,0,10"/>
+                                   FontSize="24"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,10"/>
                         <TextBlock x:Name="CurrentSectionDisplay"
-                                Text="Current Section: Dashboard"
-                                FontSize="16"
-                                HorizontalAlignment="Center"/>
+                                   Text="Current Section: Dashboard"
+                                   FontSize="16"
+                                   HorizontalAlignment="Center"/>
                         <TextBlock Text="Click sidebar buttons to navigate"
-                                FontSize="12"
-                                HorizontalAlignment="Center"
-                                Foreground="Gray"/>
+                                   FontSize="12"
+                                   HorizontalAlignment="Center"
+                                   Foreground="Gray"/>
                     </StackPanel>
                 </Border>
             </ContentControl>

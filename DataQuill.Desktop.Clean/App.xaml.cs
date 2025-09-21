@@ -21,7 +21,7 @@ public partial class App : Application
         {
             Console.WriteLine($"App.OnStartup: Exception caught - {ex.Message}");
             Console.WriteLine($"Stack trace: {ex.StackTrace}");
-            MessageBox.Show($"Application startup error: {ex.Message}\n\nStack trace: {ex.StackTrace}", 
+            MessageBox.Show($"Application startup error: {ex.Message}\n\nStack trace: {ex.StackTrace}",
                 "Startup Error", MessageBoxButton.OK, MessageBoxImage.Error);
             this.Shutdown(1);
         }

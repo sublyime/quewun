@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\code\\quewun\\DataQuill.Desktop.Clean\\DataQuillDesktop.csproj": {}
+    "C:\\code\\quewun\\DataQuill.Desktop.Clean\\DataQuillDesktop.csproj": {}
   },
   "projects": {
-    "c:\\code\\quewun\\DataQuill.Desktop.Clean\\DataQuillDesktop.csproj": {
+    "C:\\code\\quewun\\DataQuill.Desktop.Clean\\DataQuillDesktop.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\code\\quewun\\DataQuill.Desktop.Clean\\DataQuillDesktop.csproj",
+        "projectUniqueName": "C:\\code\\quewun\\DataQuill.Desktop.Clean\\DataQuillDesktop.csproj",
         "projectName": "DataQuillDesktop",
-        "projectPath": "c:\\code\\quewun\\DataQuill.Desktop.Clean\\DataQuillDesktop.csproj",
+        "projectPath": "C:\\code\\quewun\\DataQuill.Desktop.Clean\\DataQuillDesktop.csproj",
         "packagesPath": "C:\\Users\\pyres\\.nuget\\packages\\",
-        "outputPath": "c:\\code\\quewun\\DataQuill.Desktop.Clean\\obj\\",
+        "outputPath": "C:\\code\\quewun\\DataQuill.Desktop.Clean\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pyres\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -55,6 +55,10 @@
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
               "version": "[9.0.9, )"
             },

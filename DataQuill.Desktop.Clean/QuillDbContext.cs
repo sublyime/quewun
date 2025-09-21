@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using DataQuillDesktop.Models;
+using DataQuillDesktop.Services;
 using System.Text.Json;
 
 namespace DataQuillDesktop
@@ -15,7 +16,7 @@ namespace DataQuillDesktop
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql("Host=localhost;Database=quilldb;Username=quilluser;Password=ala1nna");
+                DatabaseConfigurationService.ConfigureDbContext(optionsBuilder);
             }
         }
 
@@ -55,7 +56,7 @@ namespace DataQuillDesktop
                     v => v != null ? v.ToString() : null,
                     v => v);
                 entity.HasIndex(e => new { e.DataSourceId, e.Timestamp });
-                
+
                 // Configure relationship with DataSource
                 entity.HasOne(e => e.DataSource)
                       .WithMany()
