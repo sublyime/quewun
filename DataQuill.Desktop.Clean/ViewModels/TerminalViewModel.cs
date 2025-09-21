@@ -246,7 +246,7 @@ namespace DataQuillDesktop.ViewModels
                     };
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Error is already handled in the connection manager and session
                 // Just ensure UI state is correct
@@ -288,7 +288,7 @@ namespace DataQuillDesktop.ViewModels
                 await SelectedSession.SendDataAsync(command);
                 InputCommand = string.Empty; // Clear input after sending
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Error handling is done in the session
             }

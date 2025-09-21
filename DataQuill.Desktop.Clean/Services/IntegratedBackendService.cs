@@ -93,7 +93,7 @@ namespace DataQuillDesktop.Services
                 Console.WriteLine("🛑 Stopping Integrated Backend Services...");
 
                 // Stop data collection
-                _dataCollectionService.Stop();
+                await Task.Run(() => _dataCollectionService.Stop());
 
                 _isRunning = false;
                 ServiceStatusChanged?.Invoke(this, false);

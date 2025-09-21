@@ -1,4 +1,4 @@
-﻿<Window x:Class="DataQuillDesktop.MainWindow"
+<Window x:Class="DataQuillDesktop.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:viewmodels="clr-namespace:DataQuillDesktop.ViewModels"
@@ -12,13 +12,12 @@
     <Window.Resources>
         <!-- Converters -->
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-
         <!-- Custom Converters -->
         <converters:BooleanToColorConverter x:Key="BoolToColorConverter"/>
 
         <!-- Sidebar Button Style -->
         <Style x:Key="SidebarButtonStyle"
-               TargetType="Button">
+                TargetType="Button">
             <Setter Property="Background"
                     Value="Transparent"/>
             <Setter Property="Foreground"
@@ -41,16 +40,16 @@
                         <Border Background="{TemplateBinding Background}"
                                 Padding="{TemplateBinding Padding}">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="Center"/>
+                                    VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver"
-                                     Value="True">
+                                    Value="True">
                                 <Setter Property="Background"
                                         Value="#3498db"/>
                             </Trigger>
                             <Trigger Property="IsPressed"
-                                     Value="True">
+                                    Value="True">
                                 <Setter Property="Background"
                                         Value="#2980b9"/>
                             </Trigger>
@@ -61,8 +60,6 @@
         </Style>
     </Window.Resources>
 
-
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
@@ -71,154 +68,114 @@
 
         <!-- Sidebar -->
         <Border Grid.Column="0"
-                Background="#2c3e50"
-                BorderThickness="0,0,1,0"
-                BorderBrush="#34495e">
+                Background="#34495e">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="80"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <!-- Header -->
-                <Border Grid.Row="0"
-                        Background="#34495e"
-                        Padding="20">
-                    <StackPanel>
+                <StackPanel Margin="0,20,0,0">
+                    <!-- Logo/Title -->
+                    <StackPanel Margin="20,10,20,30">
                         <TextBlock Text="DataQuill"
-                                   FontSize="18"
-                                   FontWeight="Bold"
-                                   Foreground="White"/>
+                                FontSize="20"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                HorizontalAlignment="Center"/>
                         <TextBlock Text="Desktop"
-                                   FontSize="12"
-                                   Foreground="#bdc3c7"/>
+                                FontSize="14"
+                                Foreground="#bdc3c7"
+                                HorizontalAlignment="Center"
+                                Margin="0,5,0,0"/>
                     </StackPanel>
-                </Border>
 
-                <!-- Navigation Menu -->
-                <ScrollViewer Grid.Row="1"
-                              VerticalScrollBarVisibility="Auto">
-                    <StackPanel Margin="0,20,0,0">
+                    <!-- Navigation Buttons -->
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="0,20,0,0">
 
-                        <!-- Dashboard -->
-                        <Button Name="DashboardBtn"
-                                Style="{StaticResource SidebarButtonStyle}"
-                                Command="{Binding NavigateCommand}"
-                                CommandParameter="Dashboard">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="📊"
-                                           FontSize="16"
-                                           Margin="0,0,10,0"/>
-                                <TextBlock Text="Dashboard"/>
-                            </StackPanel>
-                        </Button>
+                            <!-- Dashboard -->
+                            <Button Name="DashboardBtn"
+                                    Style="{StaticResource SidebarButtonStyle}"
+                                    Click="DashboardBtn_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="📊"
+                                            FontSize="16"
+                                            Margin="0,0,10,0"/>
+                                    <TextBlock Text="Dashboard"/>
+                                </StackPanel>
+                            </Button>
 
-                        <!-- Data Sources -->
-                        <Button Name="DataSourcesBtn"
-                                Style="{StaticResource SidebarButtonStyle}"
-                                Command="{Binding NavigateCommand}"
-                                CommandParameter="DataSources">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="🔌"
-                                           FontSize="16"
-                                           Margin="0,0,10,0"/>
-                                <TextBlock Text="Data Sources"/>
-                            </StackPanel>
-                        </Button>
+                            <!-- Data Sources -->
+                            <Button Name="DataSourcesBtn"
+                                    Style="{StaticResource SidebarButtonStyle}"
+                                    Click="DataSourcesBtn_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🔌"
+                                            FontSize="16"
+                                            Margin="0,0,10,0"/>
+                                    <TextBlock Text="Data Sources"/>
+                                </StackPanel>
+                            </Button>
 
-                        <!-- Storage -->
-                        <Button Name="StorageBtn"
-                                Style="{StaticResource SidebarButtonStyle}"
-                                Command="{Binding NavigateCommand}"
-                                CommandParameter="Storage">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="💾"
-                                           FontSize="16"
-                                           Margin="0,0,10,0"/>
-                                <TextBlock Text="Storage"/>
-                            </StackPanel>
-                        </Button>
+                            <!-- Storage -->
+                            <Button Name="StorageBtn"
+                                    Style="{StaticResource SidebarButtonStyle}"
+                                    Click="StorageBtn_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="💾"
+                                            FontSize="16"
+                                            Margin="0,0,10,0"/>
+                                    <TextBlock Text="Storage"/>
+                                </StackPanel>
+                            </Button>
 
-                        <!-- Reports -->
-                        <Button Name="ReportsBtn"
-                                Style="{StaticResource SidebarButtonStyle}"
-                                Command="{Binding NavigateCommand}"
-                                CommandParameter="Reports">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="📈"
-                                           FontSize="16"
-                                           Margin="0,0,10,0"/>
-                                <TextBlock Text="Reports"/>
-                            </StackPanel>
-                        </Button>
+                            <!-- Reports -->
+                            <Button Name="ReportsBtn"
+                                    Style="{StaticResource SidebarButtonStyle}"
+                                    Click="ReportsBtn_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="📊"
+                                            FontSize="16"
+                                            Margin="0,0,10,0"/>
+                                    <TextBlock Text="Reports"/>
+                                </StackPanel>
+                            </Button>
 
-                        <!-- Terminal -->
-                        <Button Name="TerminalBtn"
-                                Style="{StaticResource SidebarButtonStyle}"
-                                Command="{Binding NavigateCommand}"
-                                CommandParameter="Terminal">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="💻"
-                                           FontSize="16"
-                                           Margin="0,0,10,0"/>
-                                <TextBlock Text="Terminal"/>
-                            </StackPanel>
-                        </Button>
+                            <!-- Terminal -->
+                            <Button Name="TerminalBtn"
+                                    Style="{StaticResource SidebarButtonStyle}"
+                                    Click="TerminalBtn_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="💻"
+                                            FontSize="16"
+                                            Margin="0,0,10,0"/>
+                                    <TextBlock Text="Terminal"/>
+                                </StackPanel>
+                            </Button>
 
-                        <!-- User Admin -->
-                        <Button Name="UserAdminBtn"
-                                Style="{StaticResource SidebarButtonStyle}"
-                                Command="{Binding NavigateCommand}"
-                                CommandParameter="UserAdmin">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="👥"
-                                           FontSize="16"
-                                           Margin="0,0,10,0"/>
-                                <TextBlock Text="User Admin"/>
-                            </StackPanel>
-                        </Button>
+                            <!-- User Admin -->
+                            <Button Name="UserAdminBtn"
+                                    Style="{StaticResource SidebarButtonStyle}"
+                                    Click="UserAdminBtn_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="👥"
+                                            FontSize="16"
+                                            Margin="0,0,10,0"/>
+                                    <TextBlock Text="User Admin"/>
+                                </StackPanel>
+                            </Button>
 
-                        <!-- Users -->
-                        <Button Name="UsersBtn"
-                                Style="{StaticResource SidebarButtonStyle}"
-                                Command="{Binding NavigateCommand}"
-                                CommandParameter="Users">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="👤"
-                                           FontSize="16"
-                                           Margin="0,0,10,0"/>
-                                <TextBlock Text="Users"/>
-                            </StackPanel>
-                        </Button>
+                            <!-- Users -->
+                            <Button Name="UsersBtn"
+                                    Style="{StaticResource SidebarButtonStyle}"
+                                    Click="UsersBtn_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="👤"
+                                            FontSize="16"
+                                            Margin="0,0,10,0"/>
+                                    <TextBlock Text="Users"/>
+                                </StackPanel>
+                            </Button>
 
-                    </StackPanel>
-                </ScrollViewer>
-
-                <!-- Status Bar -->
-                <Border Grid.Row="2"
-                        Background="#34495e"
-                        Padding="20,10">
-                    <StackPanel>
-                        <TextBlock Text="{Binding ConnectionStatus}"
-                                   FontSize="10"
-                                   Foreground="#bdc3c7"/>
-                        <StackPanel Orientation="Horizontal"
-                                    Margin="0,5,0,0">
-                            <Ellipse Width="8"
-                                     Height="8"
-                                     Margin="0,0,5,0">
-                                <Ellipse.Fill>
-                                    <SolidColorBrush Color="{Binding IsConnected, Converter={StaticResource BoolToColorConverter}}"/>
-                                </Ellipse.Fill>
-                            </Ellipse>
-                            <TextBlock Text="{Binding IsConnected}"
-                                       FontSize="10"
-                                       Foreground="#bdc3c7"/>
                         </StackPanel>
-                    </StackPanel>
-                </Border>
-
+                    </ScrollViewer>
+                </StackPanel>
             </Grid>
         </Border>
 
@@ -236,345 +193,40 @@
                     BorderBrush="#e9ecef"
                     Padding="20">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0"
-                               Text="{Binding WelcomeMessage}"
-                               FontSize="16"
-                               FontWeight="Medium"
-                               VerticalAlignment="Center"
-                               Foreground="#495057"/>
+                    <TextBlock x:Name="WelcomeText"
+                            Text="Welcome to DataQuill Desktop"
+                            FontSize="16"
+                            FontWeight="Medium"
+                            VerticalAlignment="Center"
+                            Foreground="#495057"/>
                 </Grid>
             </Border>
 
             <!-- Content Area -->
-            <ContentPresenter Grid.Row="1"
-                              Margin="20"
-                              x:Name="MainContentPresenter">
-                <ContentPresenter.Style>
-                    <Style TargetType="ContentPresenter">
-                        <!-- Default content when no section matches -->
-                        <Setter Property="Content">
-                            <Setter.Value>
-                                <Border Background="LightGray"
-                                        CornerRadius="10"
-                                        Padding="20">
-                                    <StackPanel HorizontalAlignment="Center"
-                                                VerticalAlignment="Center">
-                                        <TextBlock Text="Welcome to DataQuill Desktop"
-                                                   FontSize="24"
-                                                   HorizontalAlignment="Center"
-                                                   Margin="0,0,0,10"/>
-                                        <TextBlock Text="{Binding CurrentSection, StringFormat='Current Section: {0}'}"
-                                                   FontSize="16"
-                                                   HorizontalAlignment="Center"/>
-                                        <TextBlock Text="Debug: View switching system"
-                                                   FontSize="12"
-                                                   HorizontalAlignment="Center"
-                                                   Foreground="Gray"/>
-                                    </StackPanel>
-                                </Border>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding CurrentSection}"
-                                         Value="Dashboard">
-                                <Setter Property="Content">
-                                    <Setter.Value>
-                                        <Border Background="LightGreen"
-                                                CornerRadius="10"
-                                                Padding="20">
-                                            <StackPanel>
-                                                <TextBlock Text="📊 Dashboard"
-                                                        FontSize="28"
-                                                        FontWeight="Bold"
-                                                        Margin="0,0,0,20"/>
-                                                <TextBlock Text="Real-time monitoring and analytics"
-                                                        FontSize="18"
-                                                        Margin="0,0,0,15"/>
-                                                <Border Background="White"
-                                                        CornerRadius="5"
-                                                        Padding="15"
-                                                        Margin="0,10">
-                                                    <StackPanel>
-                                                        <TextBlock Text="✅ Data collection status: Running"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="✅ Connection monitoring: Active"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="✅ Performance metrics: Good"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="🔌 Modbus TCP (127.0.0.1:502): Connected"
-                                                                Margin="0,5"
-                                                                FontSize="14"
-                                                                FontWeight="Bold"
-                                                                Foreground="DarkGreen"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </StackPanel>
-                                        </Border>
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding CurrentSection}"
-                                         Value="DataSources">
-                                <Setter Property="Content">
-                                    <Setter.Value>
-                                        <Border Background="LightCoral"
-                                                CornerRadius="10"
-                                                Padding="20">
-                                            <StackPanel>
-                                                <TextBlock Text="🔌 Data Sources"
-                                                        FontSize="28"
-                                                        FontWeight="Bold"
-                                                        Margin="0,0,0,20"/>
-                                                <TextBlock Text="Configure and manage data connections"
-                                                        FontSize="18"
-                                                        Margin="0,0,0,15"/>
-                                                <Border Background="White"
-                                                        CornerRadius="5"
-                                                        Padding="15"
-                                                        Margin="0,10">
-                                                    <StackPanel>
-                                                        <TextBlock Text="📡 Modbus TCP (127.0.0.1:502) - Your Simulator"
-                                                                Margin="0,5"
-                                                                FontSize="16"
-                                                                FontWeight="Bold"/>
-                                                        <TextBlock Text="• MQTT connections"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="• OPC UA servers"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="• REST APIs"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <Button Content="🧪 Test Modbus Connection"
-                                                                Margin="0,15,0,0"
-                                                                Padding="10,8"
-                                                                Background="DarkRed"
-                                                                Foreground="White"
-                                                                FontWeight="Bold"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </StackPanel>
-                                        </Border>
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding CurrentSection}"
-                                         Value="Storage">
-                                <Setter Property="Content">
-                                    <Setter.Value>
-                                        <Border Background="LightYellow"
-                                                CornerRadius="10"
-                                                Padding="20">
-                                            <StackPanel>
-                                                <TextBlock Text="💾 Storage"
-                                                        FontSize="28"
-                                                        FontWeight="Bold"
-                                                        Margin="0,0,0,20"/>
-                                                <TextBlock Text="Data storage and cloud integration"
-                                                        FontSize="18"
-                                                        Margin="0,0,0,15"/>
-                                                <Border Background="White"
-                                                        CornerRadius="5"
-                                                        Padding="15"
-                                                        Margin="0,10">
-                                                    <StackPanel>
-                                                        <TextBlock Text="🗄️ Local database storage: PostgreSQL"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="☁️ Cloud backup options: Available"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="📤 Data export/import: CSV, JSON, XML"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="📦 Archive management: Automated"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </StackPanel>
-                                        </Border>
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding CurrentSection}"
-                                         Value="Reports">
-                                <Setter Property="Content">
-                                    <Setter.Value>
-                                        <Border Background="LightPink"
-                                                CornerRadius="10"
-                                                Padding="20">
-                                            <StackPanel>
-                                                <TextBlock Text="📈 Reports"
-                                                        FontSize="28"
-                                                        FontWeight="Bold"
-                                                        Margin="0,0,0,20"/>
-                                                <TextBlock Text="Generate and view reports"
-                                                        FontSize="18"
-                                                        Margin="0,0,0,15"/>
-                                                <Border Background="White"
-                                                        CornerRadius="5"
-                                                        Padding="15"
-                                                        Margin="0,10">
-                                                    <StackPanel>
-                                                        <TextBlock Text="📊 Historical data analysis: Available"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="⚡ Performance reports: Real-time"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="📄 Export to PDF/Excel: Enabled"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="⏰ Scheduled reports: Configured"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </StackPanel>
-                                        </Border>
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding CurrentSection}"
-                                         Value="Terminal">
-                                <Setter Property="Content">
-                                    <Setter.Value>
-                                        <Border Background="Black"
-                                                CornerRadius="10"
-                                                Padding="20">
-                                            <StackPanel>
-                                                <TextBlock Text="💻 Terminal"
-                                                        FontSize="28"
-                                                        FontWeight="Bold"
-                                                        Margin="0,0,0,20"
-                                                        Foreground="LimeGreen"/>
-                                                <TextBlock Text="Command line interface and debugging"
-                                                        FontSize="18"
-                                                        Margin="0,0,0,15"
-                                                        Foreground="White"/>
-                                                <Border Background="#1a1a1a"
-                                                        CornerRadius="5"
-                                                        Padding="15"
-                                                        Margin="0,10">
-                                                    <StackPanel>
-                                                        <TextBlock Text="$ modbus-test --host 127.0.0.1 --port 502"
-                                                                Margin="0,5"
-                                                                FontSize="12"
-                                                                Foreground="LimeGreen"
-                                                                FontFamily="Consolas"/>
-                                                        <TextBlock Text="$ ping-datasource --all"
-                                                                Margin="0,5"
-                                                                FontSize="12"
-                                                                Foreground="LimeGreen"
-                                                                FontFamily="Consolas"/>
-                                                        <TextBlock Text="$ monitor --real-time"
-                                                                Margin="0,5"
-                                                                FontSize="12"
-                                                                Foreground="LimeGreen"
-                                                                FontFamily="Consolas"/>
-                                                        <TextBlock Text="$ debug-connection"
-                                                                Margin="0,5"
-                                                                FontSize="12"
-                                                                Foreground="LimeGreen"
-                                                                FontFamily="Consolas"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </StackPanel>
-                                        </Border>
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding CurrentSection}"
-                                         Value="UserAdmin">
-                                <Setter Property="Content">
-                                    <Setter.Value>
-                                        <Border Background="LightSteelBlue"
-                                                CornerRadius="10"
-                                                Padding="20">
-                                            <StackPanel>
-                                                <TextBlock Text="⚙️ User Admin"
-                                                        FontSize="28"
-                                                        FontWeight="Bold"
-                                                        Margin="0,0,0,20"/>
-                                                <TextBlock Text="System administration and settings"
-                                                        FontSize="18"
-                                                        Margin="0,0,0,15"/>
-                                                <Border Background="White"
-                                                        CornerRadius="5"
-                                                        Padding="15"
-                                                        Margin="0,10">
-                                                    <StackPanel>
-                                                        <TextBlock Text="👑 User permissions: Role-based access"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="⚙️ System configuration: Centralized"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="🔒 Security settings: Encrypted"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="💾 Backup and restore: Automated"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </StackPanel>
-                                        </Border>
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding CurrentSection}"
-                                         Value="Users">
-                                <Setter Property="Content">
-                                    <Setter.Value>
-                                        <Border Background="Lavender"
-                                                CornerRadius="10"
-                                                Padding="20">
-                                            <StackPanel>
-                                                <TextBlock Text="👥 Users"
-                                                        FontSize="28"
-                                                        FontWeight="Bold"
-                                                        Margin="0,0,0,20"/>
-                                                <TextBlock Text="User management and profiles"
-                                                        FontSize="18"
-                                                        Margin="0,0,0,15"/>
-                                                <Border Background="White"
-                                                        CornerRadius="5"
-                                                        Padding="15"
-                                                        Margin="0,10">
-                                                    <StackPanel>
-                                                        <TextBlock Text="➕ Add/remove users: Administrative access"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="✏️ Edit user profiles: Full control"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="🎭 Role assignments: Flexible system"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                        <TextBlock Text="📊 Activity tracking: Real-time logs"
-                                                                Margin="0,5"
-                                                                FontSize="14"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </StackPanel>
-                                        </Border>
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ContentPresenter.Style>
-            </ContentPresenter>
+            <ContentControl Grid.Row="1"
+                    Margin="20"
+                    x:Name="MainContentControl">
+                <!-- Default Welcome Content -->
+                <Border Background="LightGray"
+                        CornerRadius="10"
+                        Padding="20">
+                    <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="Welcome to DataQuill Desktop"
+                                FontSize="24"
+                                HorizontalAlignment="Center"
+                                Margin="0,0,0,10"/>
+                        <TextBlock x:Name="CurrentSectionDisplay"
+                                Text="Current Section: Dashboard"
+                                FontSize="16"
+                                HorizontalAlignment="Center"/>
+                        <TextBlock Text="Click sidebar buttons to navigate"
+                                FontSize="12"
+                                HorizontalAlignment="Center"
+                                Foreground="Gray"/>
+                    </StackPanel>
+                </Border>
+            </ContentControl>
 
         </Grid>
 

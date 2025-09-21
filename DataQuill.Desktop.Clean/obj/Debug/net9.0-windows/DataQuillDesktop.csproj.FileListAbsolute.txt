@@ -132,12 +132,14 @@ C:\code\quewun\DataQuill.Desktop.Clean\bin\Debug\net9.0-windows\runtimes\osx-x64
 C:\code\quewun\DataQuill.Desktop.Clean\bin\Debug\net9.0-windows\runtimes\unix\lib\net9.0\System.IO.Ports.dll
 C:\code\quewun\DataQuill.Desktop.Clean\bin\Debug\net9.0-windows\runtimes\win\lib\net9.0\System.IO.Ports.dll
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\DataQuillDesktop.csproj.AssemblyReference.cache
+C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\TestMainWindow.baml
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\TestWindow.baml
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\Views\ReportsView.baml
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\Views\UserAdminView.baml
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\Views\UserEditDialog.baml
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\Views\UsersView.baml
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\MainWindow.g.cs
+C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\TestMainWindow.g.cs
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\TestWindow.g.cs
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\Views\DashboardView.g.cs
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\Views\DataSourcesView.g.cs
@@ -167,5 +169,3 @@ C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\refint\DataQuill
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\DataQuillDesktop.pdb
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\DataQuillDesktop.genruntimeconfig.cache
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\ref\DataQuillDesktop.dll
-C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\TestMainWindow.baml
-C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\TestMainWindow.g.cs

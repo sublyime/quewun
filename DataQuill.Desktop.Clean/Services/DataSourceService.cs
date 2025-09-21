@@ -56,6 +56,9 @@ namespace DataQuillDesktop.Services
         {
             try
             {
+                if (_context == null)
+                    return null;
+
                 return await _context.DataSources.FindAsync(id);
             }
             catch (Exception ex)
@@ -194,7 +197,10 @@ namespace DataQuillDesktop.Services
             // Try to read the file
             using var fileStream = File.OpenRead(config.FilePath);
             var buffer = new byte[1024];
-            await fileStream.ReadAsync(buffer.AsMemory(0, buffer.Length));
+            var bytesRead = await fileStream.ReadAsync(buffer.AsMemory(0, buffer.Length));
+
+            if (bytesRead > 0)
+                Console.WriteLine($"Successfully read {bytesRead} bytes from file");
 
             return true;
         }
@@ -234,36 +240,38 @@ namespace DataQuillDesktop.Services
         private async Task<bool> TestModbusTcpConnectionAsync(DataSource dataSource)
         {
             var config = dataSource.Configuration;
-            
+
             Console.WriteLine($"Testing Modbus TCP connection to {config.Host}:{config.Port}, Slave ID: {config.SlaveId}");
-            
+
             try
             {
+                await Task.Delay(100); // Simulate connection delay
+
                 using var client = new ModbusTcpClient();
-                
+
                 // Set timeout
                 client.ReadTimeout = config.Timeout * 1000; // Convert to milliseconds
                 client.WriteTimeout = config.Timeout * 1000;
-                
+
                 Console.WriteLine($"Connecting to Modbus TCP server...");
-                
+
                 // Connect to the Modbus TCP server
                 client.Connect(new System.Net.IPEndPoint(
-                    System.Net.IPAddress.Parse(config.Host), 
+                    System.Net.IPAddress.Parse(config.Host),
                     config.Port));
-                
+
                 Console.WriteLine($"Connected! Testing communication with slave {config.SlaveId}...");
-                
+
                 // Try to read a holding register to verify communication
                 // Reading 1 register starting from address 0
                 var result = client.ReadHoldingRegisters<ushort>(
-                    unitIdentifier: (byte)config.SlaveId, 
-                    startingAddress: 0, 
+                    unitIdentifier: (byte)config.SlaveId,
+                    startingAddress: 0,
                     count: 1);
-                
+
                 Console.WriteLine($"Successfully read holding register 0: {result[0]}");
                 Console.WriteLine($"Modbus TCP connection test SUCCESSFUL!");
-                
+
                 return true;
             }
             catch (System.Net.Sockets.SocketException ex)

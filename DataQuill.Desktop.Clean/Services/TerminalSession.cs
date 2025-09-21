@@ -349,7 +349,7 @@ namespace DataQuillDesktop.Services
                 throw new InvalidOperationException("Failed to start local shell process");
 
             // Start reading output
-            _ = Task.Run(ReadLocalProcessOutputAsync);
+            await Task.Run(ReadLocalProcessOutputAsync);
         }
 
         /// <summary>

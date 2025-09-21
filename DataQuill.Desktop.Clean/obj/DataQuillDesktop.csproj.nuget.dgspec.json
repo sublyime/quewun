@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\code\\quewun\\DataQuill.Desktop.Clean\\DataQuillDesktop.csproj": {}
+    "c:\\code\\quewun\\DataQuill.Desktop.Clean\\DataQuillDesktop.csproj": {}
   },
   "projects": {
-    "C:\\code\\quewun\\DataQuill.Desktop.Clean\\DataQuillDesktop.csproj": {
+    "c:\\code\\quewun\\DataQuill.Desktop.Clean\\DataQuillDesktop.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\code\\quewun\\DataQuill.Desktop.Clean\\DataQuillDesktop.csproj",
+        "projectUniqueName": "c:\\code\\quewun\\DataQuill.Desktop.Clean\\DataQuillDesktop.csproj",
         "projectName": "DataQuillDesktop",
-        "projectPath": "C:\\code\\quewun\\DataQuill.Desktop.Clean\\DataQuillDesktop.csproj",
+        "projectPath": "c:\\code\\quewun\\DataQuill.Desktop.Clean\\DataQuillDesktop.csproj",
         "packagesPath": "C:\\Users\\pyres\\.nuget\\packages\\",
-        "outputPath": "C:\\code\\quewun\\DataQuill.Desktop.Clean\\obj\\",
+        "outputPath": "c:\\code\\quewun\\DataQuill.Desktop.Clean\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pyres\\AppData\\Roaming\\NuGet\\NuGet.Config"

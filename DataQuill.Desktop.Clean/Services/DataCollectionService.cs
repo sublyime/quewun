@@ -21,23 +21,23 @@ public class DataCollectionService : IDisposable
     private readonly System.Timers.Timer _collectionTimer;
     private readonly Random _random = new();
     private bool _disposed = false;
-    
+
     public ObservableCollection<DataPoint> RealtimeData { get; } = new();
     public ObservableCollection<ActivityEvent> RecentActivities { get; } = new();
     public DashboardMetrics Metrics { get; } = new();
-    
+
     public event EventHandler<DataPoint>? DataPointReceived;
     public event EventHandler<ActivityEvent>? ActivityOccurred;
 
     public DataCollectionService(QuillDbContext dbContext)
     {
         _dbContext = dbContext;
-        
+
         // Initialize collection timer (collect data every 5 seconds)
         _collectionTimer = new System.Timers.Timer(5000);
         _collectionTimer.Elapsed += CollectDataFromSources;
         _collectionTimer.AutoReset = true;
-        
+
         // Initialize with some sample data
         InitializeSampleData();
     }
@@ -84,7 +84,7 @@ public class DataCollectionService : IDisposable
                     {
                         activeConnections++;
                         totalDataPoints += data.Count;
-                        
+
                         foreach (var dataPoint in data)
                         {
                             RealtimeData.Add(dataPoint);
@@ -98,15 +98,15 @@ public class DataCollectionService : IDisposable
                             RealtimeData.RemoveAt(0);
                         }
 
-                        AddActivity($"Data received from {dataSource.Name}", 
-                                  $"{data.Count} data points collected", 
+                        AddActivity($"Data received from {dataSource.Name}",
+                                  $"{data.Count} data points collected",
                                   ActivityType.DataReceived);
                     }
                 }
                 catch (Exception ex)
                 {
-                    AddActivity($"Error collecting from {dataSource.Name}", 
-                              ex.Message, 
+                    AddActivity($"Error collecting from {dataSource.Name}",
+                              ex.Message,
                               ActivityType.Error);
                 }
             }
@@ -164,7 +164,7 @@ public class DataCollectionService : IDisposable
             if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath))
             {
                 var content = await File.ReadAllTextAsync(filePath);
-                
+
                 // Generate simulated data based on file content
                 for (int i = 0; i < 3; i++)
                 {
@@ -214,7 +214,7 @@ public class DataCollectionService : IDisposable
                     // For other TCP protocols, use ping test and simulated data
                     using var ping = new Ping();
                     var reply = await ping.SendPingAsync(host, 1000);
-                    
+
                     if (reply.Status == IPStatus.Success)
                     {
                         // Generate simulated TCP data
@@ -254,8 +254,8 @@ public class DataCollectionService : IDisposable
         try
         {
             var client = new ModbusTcpClient();
-            
-            await Task.Run(() => 
+
+            await Task.Run(() =>
             {
                 var endpoint = new System.Net.IPEndPoint(System.Net.IPAddress.Parse(config.Host), config.Port);
                 client.Connect(endpoint, FluentModbus.ModbusEndianness.BigEndian);
@@ -288,7 +288,7 @@ public class DataCollectionService : IDisposable
             }
 
             client.Disconnect();
-            
+
             AddActivity($"Modbus TCP Data Collection", $"Read {dataPoints.Count} data points from {dataSource.Name} (Slave {slaveId})", ActivityType.Success);
         }
         catch (Exception ex)
@@ -308,6 +308,9 @@ public class DataCollectionService : IDisposable
 
         try
         {
+            // Simulate UDP connection delay
+            await Task.Delay(100);
+
             // Generate simulated UDP data
             for (int i = 0; i < 4; i++)
             {
@@ -345,6 +348,9 @@ public class DataCollectionService : IDisposable
 
             if (!string.IsNullOrEmpty(portName))
             {
+                // Simulate serial communication delay
+                await Task.Delay(50);
+
                 // Generate simulated serial data
                 for (int i = 0; i < 3; i++)
                 {
@@ -378,6 +384,9 @@ public class DataCollectionService : IDisposable
 
         try
         {
+            // Simulate USB device communication delay
+            await Task.Delay(75);
+
             // Generate simulated USB device data
             for (int i = 0; i < 2; i++)
             {
@@ -445,7 +454,7 @@ public class DataCollectionService : IDisposable
 
         // Add to beginning of collection
         RecentActivities.Insert(0, activity);
-        
+
         // Keep only last 20 activities
         while (RecentActivities.Count > 20)
         {
@@ -474,7 +483,7 @@ public class DataCollectionService : IDisposable
     private void InitializeSampleData()
     {
         AddActivity("System initialized", "DataQuill dashboard started", ActivityType.Success);
-        
+
         // Add some initial sample data points
         for (int i = 0; i < 10; i++)
         {
