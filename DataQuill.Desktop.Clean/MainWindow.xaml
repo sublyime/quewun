@@ -252,7 +252,7 @@
             <!-- Content Area -->
             <ContentPresenter Grid.Row="1"
                               Margin="20"
-                    x:Name="MainContentPresenter">
+                              x:Name="MainContentPresenter">
                 <ContentPresenter.Style>
                     <Style TargetType="ContentPresenter">
                         <!-- Default content when no section matches -->
@@ -262,18 +262,18 @@
                                         CornerRadius="10"
                                         Padding="20">
                                     <StackPanel HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                                VerticalAlignment="Center">
                                         <TextBlock Text="Welcome to DataQuill Desktop"
-                                                FontSize="24"
-                                                HorizontalAlignment="Center"
-                                                Margin="0,0,0,10"/>
+                                                   FontSize="24"
+                                                   HorizontalAlignment="Center"
+                                                   Margin="0,0,0,10"/>
                                         <TextBlock Text="{Binding CurrentSection, StringFormat='Current Section: {0}'}"
-                                                FontSize="16"
-                                                HorizontalAlignment="Center"/>
+                                                   FontSize="16"
+                                                   HorizontalAlignment="Center"/>
                                         <TextBlock Text="Debug: View switching system"
-                                                FontSize="12"
-                                                HorizontalAlignment="Center"
-                                                Foreground="Gray"/>
+                                                   FontSize="12"
+                                                   HorizontalAlignment="Center"
+                                                   Foreground="Gray"/>
                                     </StackPanel>
                                 </Border>
                             </Setter.Value>
@@ -283,16 +283,36 @@
                                          Value="Dashboard">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <Border Background="LightGreen" CornerRadius="10" Padding="20">
+                                        <Border Background="LightGreen"
+                                                CornerRadius="10"
+                                                Padding="20">
                                             <StackPanel>
-                                                <TextBlock Text="📊 Dashboard" FontSize="28" FontWeight="Bold" Margin="0,0,0,20"/>
-                                                <TextBlock Text="Real-time monitoring and analytics" FontSize="18" Margin="0,0,0,15"/>
-                                                <Border Background="White" CornerRadius="5" Padding="15" Margin="0,10">
+                                                <TextBlock Text="📊 Dashboard"
+                                                        FontSize="28"
+                                                        FontWeight="Bold"
+                                                        Margin="0,0,0,20"/>
+                                                <TextBlock Text="Real-time monitoring and analytics"
+                                                        FontSize="18"
+                                                        Margin="0,0,0,15"/>
+                                                <Border Background="White"
+                                                        CornerRadius="5"
+                                                        Padding="15"
+                                                        Margin="0,10">
                                                     <StackPanel>
-                                                        <TextBlock Text="✅ Data collection status: Running" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="✅ Connection monitoring: Active" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="✅ Performance metrics: Good" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="🔌 Modbus TCP (127.0.0.1:502): Connected" Margin="0,5" FontSize="14" FontWeight="Bold" Foreground="DarkGreen"/>
+                                                        <TextBlock Text="✅ Data collection status: Running"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="✅ Connection monitoring: Active"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="✅ Performance metrics: Good"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="🔌 Modbus TCP (127.0.0.1:502): Connected"
+                                                                Margin="0,5"
+                                                                FontSize="14"
+                                                                FontWeight="Bold"
+                                                                Foreground="DarkGreen"/>
                                                     </StackPanel>
                                                 </Border>
                                             </StackPanel>
@@ -304,17 +324,41 @@
                                          Value="DataSources">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <Border Background="LightCoral" CornerRadius="10" Padding="20">
+                                        <Border Background="LightCoral"
+                                                CornerRadius="10"
+                                                Padding="20">
                                             <StackPanel>
-                                                <TextBlock Text="🔌 Data Sources" FontSize="28" FontWeight="Bold" Margin="0,0,0,20"/>
-                                                <TextBlock Text="Configure and manage data connections" FontSize="18" Margin="0,0,0,15"/>
-                                                <Border Background="White" CornerRadius="5" Padding="15" Margin="0,10">
+                                                <TextBlock Text="🔌 Data Sources"
+                                                        FontSize="28"
+                                                        FontWeight="Bold"
+                                                        Margin="0,0,0,20"/>
+                                                <TextBlock Text="Configure and manage data connections"
+                                                        FontSize="18"
+                                                        Margin="0,0,0,15"/>
+                                                <Border Background="White"
+                                                        CornerRadius="5"
+                                                        Padding="15"
+                                                        Margin="0,10">
                                                     <StackPanel>
-                                                        <TextBlock Text="📡 Modbus TCP (127.0.0.1:502) - Your Simulator" Margin="0,5" FontSize="16" FontWeight="Bold"/>
-                                                        <TextBlock Text="• MQTT connections" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="• OPC UA servers" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="• REST APIs" Margin="0,5" FontSize="14"/>
-                                                        <Button Content="🧪 Test Modbus Connection" Margin="0,15,0,0" Padding="10,8" Background="DarkRed" Foreground="White" FontWeight="Bold"/>
+                                                        <TextBlock Text="📡 Modbus TCP (127.0.0.1:502) - Your Simulator"
+                                                                Margin="0,5"
+                                                                FontSize="16"
+                                                                FontWeight="Bold"/>
+                                                        <TextBlock Text="• MQTT connections"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="• OPC UA servers"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="• REST APIs"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <Button Content="🧪 Test Modbus Connection"
+                                                                Margin="0,15,0,0"
+                                                                Padding="10,8"
+                                                                Background="DarkRed"
+                                                                Foreground="White"
+                                                                FontWeight="Bold"/>
                                                     </StackPanel>
                                                 </Border>
                                             </StackPanel>
@@ -326,16 +370,34 @@
                                          Value="Storage">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <Border Background="LightYellow" CornerRadius="10" Padding="20">
+                                        <Border Background="LightYellow"
+                                                CornerRadius="10"
+                                                Padding="20">
                                             <StackPanel>
-                                                <TextBlock Text="💾 Storage" FontSize="28" FontWeight="Bold" Margin="0,0,0,20"/>
-                                                <TextBlock Text="Data storage and cloud integration" FontSize="18" Margin="0,0,0,15"/>
-                                                <Border Background="White" CornerRadius="5" Padding="15" Margin="0,10">
+                                                <TextBlock Text="💾 Storage"
+                                                        FontSize="28"
+                                                        FontWeight="Bold"
+                                                        Margin="0,0,0,20"/>
+                                                <TextBlock Text="Data storage and cloud integration"
+                                                        FontSize="18"
+                                                        Margin="0,0,0,15"/>
+                                                <Border Background="White"
+                                                        CornerRadius="5"
+                                                        Padding="15"
+                                                        Margin="0,10">
                                                     <StackPanel>
-                                                        <TextBlock Text="🗄️ Local database storage: PostgreSQL" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="☁️ Cloud backup options: Available" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="📤 Data export/import: CSV, JSON, XML" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="📦 Archive management: Automated" Margin="0,5" FontSize="14"/>
+                                                        <TextBlock Text="🗄️ Local database storage: PostgreSQL"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="☁️ Cloud backup options: Available"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="📤 Data export/import: CSV, JSON, XML"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="📦 Archive management: Automated"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
                                                     </StackPanel>
                                                 </Border>
                                             </StackPanel>
@@ -347,16 +409,34 @@
                                          Value="Reports">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <Border Background="LightPink" CornerRadius="10" Padding="20">
+                                        <Border Background="LightPink"
+                                                CornerRadius="10"
+                                                Padding="20">
                                             <StackPanel>
-                                                <TextBlock Text="📈 Reports" FontSize="28" FontWeight="Bold" Margin="0,0,0,20"/>
-                                                <TextBlock Text="Generate and view reports" FontSize="18" Margin="0,0,0,15"/>
-                                                <Border Background="White" CornerRadius="5" Padding="15" Margin="0,10">
+                                                <TextBlock Text="📈 Reports"
+                                                        FontSize="28"
+                                                        FontWeight="Bold"
+                                                        Margin="0,0,0,20"/>
+                                                <TextBlock Text="Generate and view reports"
+                                                        FontSize="18"
+                                                        Margin="0,0,0,15"/>
+                                                <Border Background="White"
+                                                        CornerRadius="5"
+                                                        Padding="15"
+                                                        Margin="0,10">
                                                     <StackPanel>
-                                                        <TextBlock Text="📊 Historical data analysis: Available" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="⚡ Performance reports: Real-time" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="📄 Export to PDF/Excel: Enabled" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="⏰ Scheduled reports: Configured" Margin="0,5" FontSize="14"/>
+                                                        <TextBlock Text="📊 Historical data analysis: Available"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="⚡ Performance reports: Real-time"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="📄 Export to PDF/Excel: Enabled"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="⏰ Scheduled reports: Configured"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
                                                     </StackPanel>
                                                 </Border>
                                             </StackPanel>
@@ -368,16 +448,44 @@
                                          Value="Terminal">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <Border Background="Black" CornerRadius="10" Padding="20">
+                                        <Border Background="Black"
+                                                CornerRadius="10"
+                                                Padding="20">
                                             <StackPanel>
-                                                <TextBlock Text="💻 Terminal" FontSize="28" FontWeight="Bold" Margin="0,0,0,20" Foreground="LimeGreen"/>
-                                                <TextBlock Text="Command line interface and debugging" FontSize="18" Margin="0,0,0,15" Foreground="White"/>
-                                                <Border Background="#1a1a1a" CornerRadius="5" Padding="15" Margin="0,10">
+                                                <TextBlock Text="💻 Terminal"
+                                                        FontSize="28"
+                                                        FontWeight="Bold"
+                                                        Margin="0,0,0,20"
+                                                        Foreground="LimeGreen"/>
+                                                <TextBlock Text="Command line interface and debugging"
+                                                        FontSize="18"
+                                                        Margin="0,0,0,15"
+                                                        Foreground="White"/>
+                                                <Border Background="#1a1a1a"
+                                                        CornerRadius="5"
+                                                        Padding="15"
+                                                        Margin="0,10">
                                                     <StackPanel>
-                                                        <TextBlock Text="$ modbus-test --host 127.0.0.1 --port 502" Margin="0,5" FontSize="12" Foreground="LimeGreen" FontFamily="Consolas"/>
-                                                        <TextBlock Text="$ ping-datasource --all" Margin="0,5" FontSize="12" Foreground="LimeGreen" FontFamily="Consolas"/>
-                                                        <TextBlock Text="$ monitor --real-time" Margin="0,5" FontSize="12" Foreground="LimeGreen" FontFamily="Consolas"/>
-                                                        <TextBlock Text="$ debug-connection" Margin="0,5" FontSize="12" Foreground="LimeGreen" FontFamily="Consolas"/>
+                                                        <TextBlock Text="$ modbus-test --host 127.0.0.1 --port 502"
+                                                                Margin="0,5"
+                                                                FontSize="12"
+                                                                Foreground="LimeGreen"
+                                                                FontFamily="Consolas"/>
+                                                        <TextBlock Text="$ ping-datasource --all"
+                                                                Margin="0,5"
+                                                                FontSize="12"
+                                                                Foreground="LimeGreen"
+                                                                FontFamily="Consolas"/>
+                                                        <TextBlock Text="$ monitor --real-time"
+                                                                Margin="0,5"
+                                                                FontSize="12"
+                                                                Foreground="LimeGreen"
+                                                                FontFamily="Consolas"/>
+                                                        <TextBlock Text="$ debug-connection"
+                                                                Margin="0,5"
+                                                                FontSize="12"
+                                                                Foreground="LimeGreen"
+                                                                FontFamily="Consolas"/>
                                                     </StackPanel>
                                                 </Border>
                                             </StackPanel>
@@ -389,16 +497,34 @@
                                          Value="UserAdmin">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <Border Background="LightSteelBlue" CornerRadius="10" Padding="20">
+                                        <Border Background="LightSteelBlue"
+                                                CornerRadius="10"
+                                                Padding="20">
                                             <StackPanel>
-                                                <TextBlock Text="⚙️ User Admin" FontSize="28" FontWeight="Bold" Margin="0,0,0,20"/>
-                                                <TextBlock Text="System administration and settings" FontSize="18" Margin="0,0,0,15"/>
-                                                <Border Background="White" CornerRadius="5" Padding="15" Margin="0,10">
+                                                <TextBlock Text="⚙️ User Admin"
+                                                        FontSize="28"
+                                                        FontWeight="Bold"
+                                                        Margin="0,0,0,20"/>
+                                                <TextBlock Text="System administration and settings"
+                                                        FontSize="18"
+                                                        Margin="0,0,0,15"/>
+                                                <Border Background="White"
+                                                        CornerRadius="5"
+                                                        Padding="15"
+                                                        Margin="0,10">
                                                     <StackPanel>
-                                                        <TextBlock Text="👑 User permissions: Role-based access" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="⚙️ System configuration: Centralized" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="🔒 Security settings: Encrypted" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="💾 Backup and restore: Automated" Margin="0,5" FontSize="14"/>
+                                                        <TextBlock Text="👑 User permissions: Role-based access"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="⚙️ System configuration: Centralized"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="🔒 Security settings: Encrypted"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="💾 Backup and restore: Automated"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
                                                     </StackPanel>
                                                 </Border>
                                             </StackPanel>
@@ -410,16 +536,34 @@
                                          Value="Users">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <Border Background="Lavender" CornerRadius="10" Padding="20">
+                                        <Border Background="Lavender"
+                                                CornerRadius="10"
+                                                Padding="20">
                                             <StackPanel>
-                                                <TextBlock Text="👥 Users" FontSize="28" FontWeight="Bold" Margin="0,0,0,20"/>
-                                                <TextBlock Text="User management and profiles" FontSize="18" Margin="0,0,0,15"/>
-                                                <Border Background="White" CornerRadius="5" Padding="15" Margin="0,10">
+                                                <TextBlock Text="👥 Users"
+                                                        FontSize="28"
+                                                        FontWeight="Bold"
+                                                        Margin="0,0,0,20"/>
+                                                <TextBlock Text="User management and profiles"
+                                                        FontSize="18"
+                                                        Margin="0,0,0,15"/>
+                                                <Border Background="White"
+                                                        CornerRadius="5"
+                                                        Padding="15"
+                                                        Margin="0,10">
                                                     <StackPanel>
-                                                        <TextBlock Text="➕ Add/remove users: Administrative access" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="✏️ Edit user profiles: Full control" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="🎭 Role assignments: Flexible system" Margin="0,5" FontSize="14"/>
-                                                        <TextBlock Text="📊 Activity tracking: Real-time logs" Margin="0,5" FontSize="14"/>
+                                                        <TextBlock Text="➕ Add/remove users: Administrative access"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="✏️ Edit user profiles: Full control"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="🎭 Role assignments: Flexible system"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
+                                                        <TextBlock Text="📊 Activity tracking: Real-time logs"
+                                                                Margin="0,5"
+                                                                FontSize="14"/>
                                                     </StackPanel>
                                                 </Border>
                                             </StackPanel>
