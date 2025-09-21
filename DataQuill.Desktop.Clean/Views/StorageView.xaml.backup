@@ -1,0 +1,763 @@
+<UserControl x:Class="DataQuillDesktop.Views.StorageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewmodels="clr-namespace:DataQuillDesktop.ViewModels"
+             xmlns:models="clr-namespace:DataQuillDesktop.Models.Storage"
+             xmlns:converters="clr-namespace:DataQuillDesktop.Converters">
+
+    <UserControl.DataContext>
+        <viewmodels:StorageViewModel/>
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <!-- Converters -->
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+        <converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
+        <converters:AddEditHeaderConverter x:Key="AddEditHeaderConverter"/>
+        <converters:BooleanToBackgroundConverter x:Key="BooleanToBackgroundConverter"/>
+        <!-- Cloud Provider to Icon Converter -->
+        <Style x:Key="ProviderIconStyle"
+                TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="24"/>
+            <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+            <Setter Property="HorizontalAlignment"
+                    Value="Center"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Provider}"
+                        Value="AWS">
+                    <Setter Property="Text"
+                            Value="☁️"/>
+                    <Setter Property="Foreground"
+                            Value="Orange"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Provider}"
+                        Value="GoogleCloud">
+                    <Setter Property="Text"
+                            Value="🌐"/>
+                    <Setter Property="Foreground"
+                            Value="Blue"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Provider}"
+                        Value="Azure">
+                    <Setter Property="Text"
+                            Value="⚡"/>
+                    <Setter Property="Foreground"
+                            Value="CornflowerBlue"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Provider}"
+                        Value="Oracle">
+                    <Setter Property="Text"
+                            Value="🏛️"/>
+                    <Setter Property="Foreground"
+                            Value="Red"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Status to Color Converter -->
+        <Style x:Key="StatusIndicatorStyle"
+                TargetType="Ellipse">
+            <Setter Property="Width"
+                    Value="12"/>
+            <Setter Property="Height"
+                    Value="12"/>
+            <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Status}"
+                        Value="Connected">
+                    <Setter Property="Fill"
+                            Value="Green"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}"
+                        Value="Disconnected">
+                    <Setter Property="Fill"
+                            Value="Gray"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}"
+                        Value="Connecting">
+                    <Setter Property="Fill"
+                            Value="Orange"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}"
+                        Value="Failed">
+                    <Setter Property="Fill"
+                            Value="Red"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}"
+                        Value="Testing">
+                    <Setter Property="Fill"
+                            Value="Yellow"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Button Styles -->
+        <Style x:Key="PrimaryButtonStyle"
+                TargetType="Button">
+            <Setter Property="Background"
+                    Value="#2196F3"/>
+            <Setter Property="Foreground"
+                    Value="White"/>
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+            <Setter Property="Padding"
+                    Value="12,6"/>
+            <Setter Property="Margin"
+                    Value="4"/>
+            <Setter Property="FontWeight"
+                    Value="Medium"/>
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver"
+                        Value="True">
+                    <Setter Property="Background"
+                            Value="#1976D2"/>
+                </Trigger>
+                <Trigger Property="IsEnabled"
+                        Value="False">
+                    <Setter Property="Background"
+                            Value="#CCCCCC"/>
+                    <Setter Property="Foreground"
+                            Value="#666666"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="SecondaryButtonStyle"
+                TargetType="Button">
+            <Setter Property="Background"
+                    Value="Transparent"/>
+            <Setter Property="Foreground"
+                    Value="#2196F3"/>
+            <Setter Property="BorderBrush"
+                    Value="#2196F3"/>
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+            <Setter Property="Padding"
+                    Value="12,6"/>
+            <Setter Property="Margin"
+                    Value="4"/>
+            <Setter Property="FontWeight"
+                    Value="Medium"/>
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver"
+                        Value="True">
+                    <Setter Property="Background"
+                            Value="#E3F2FD"/>
+                </Trigger>
+                <Trigger Property="IsEnabled"
+                        Value="False">
+                    <Setter Property="BorderBrush"
+                            Value="#CCCCCC"/>
+                    <Setter Property="Foreground"
+                            Value="#666666"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="#F5F5F5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0"
+                Background="White"
+                BorderBrush="#E0E0E0"
+                BorderThickness="0,0,0,1"
+                Padding="20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="☁️ Cloud Storage Connections"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               Foreground="#1976D2"/>
+                    <TextBlock Text="Connect to AWS, Google Cloud, Azure, and Oracle Cloud to access your data"
+                               FontSize="14"
+                               Foreground="#666666"
+                               Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1"
+                        Orientation="Horizontal">
+                    <TextBox x:Name="SearchBox"
+                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                             Width="200"
+                             Padding="8"
+                             Margin="0,0,10,0"
+                             VerticalAlignment="Center">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Border Background="White"
+                                                    BorderBrush="#E0E0E0"
+                                                    BorderThickness="1"
+                                                    CornerRadius="4">
+                                                <Grid>
+                                                    <TextBox x:Name="PART_ContentHost"
+                                                            Margin="8,4"
+                                                            BorderThickness="0"
+                                                            Background="Transparent"/>
+                                                    <TextBlock Text="🔍 Search connections..."
+                                                               Margin="12,4"
+                                                               Foreground="#999999"
+                                                               IsHitTestVisible="False">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="Visibility"
+                                                                        Value="Collapsed"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Text, ElementName=SearchBox}"
+                                                                            Value="">
+                                                                        <Setter Property="Visibility"
+                                                                                Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                </Grid>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+
+                    <Button Content="🔄 Refresh"
+                            Command="{Binding RefreshCommand}"
+                            Style="{StaticResource SecondaryButtonStyle}"/>
+
+                    <Button Content="➕ Add Connection"
+                            Command="{Binding AddConnectionCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1"
+                Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Connections List -->
+            <Border Grid.Column="0"
+                    Background="White"
+                    BorderBrush="#E0E0E0"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- List Header -->
+                    <Border Grid.Row="0"
+                            Background="#FAFAFA"
+                            BorderBrush="#E0E0E0"
+                            BorderThickness="0,0,0,1"
+                            Padding="16,12">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                    Text="Provider"
+                                    FontWeight="Bold"
+                                    Margin="0,0,20,0"/>
+                            <TextBlock Grid.Column="1"
+                                    Text="Connection Name"
+                                    FontWeight="Bold"
+                                    Margin="0,0,20,0"/>
+                            <TextBlock Grid.Column="2"
+                                    Text="Status"
+                                    FontWeight="Bold"
+                                    Margin="0,0,20,0"/>
+                            <TextBlock Grid.Column="3"
+                                    Text="Last Connected"
+                                    FontWeight="Bold"
+                                    Margin="0,0,20,0"/>
+                            <TextBlock Grid.Column="4"
+                                    Text="Actions"
+                                    FontWeight="Bold"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Connections List -->
+                    <ScrollViewer Grid.Row="1"
+                            VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding FilteredConnections}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="#F0F0F0"
+                                            BorderThickness="0,0,0,1"
+                                            Padding="16,12"
+                                            Background="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}, 
+                                                       Converter={StaticResource BooleanToBackgroundConverter}}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="60"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="140"/>
+                                                <ColumnDefinition Width="200"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Provider Icon -->
+                                            <TextBlock Grid.Column="0"
+                                                    Style="{StaticResource ProviderIconStyle}"/>
+
+                                            <!-- Connection Info -->
+                                            <StackPanel Grid.Column="1"
+                                                    Margin="10,0">
+                                                <TextBlock Text="{Binding Name}"
+                                                        FontWeight="Medium"
+                                                        FontSize="14"/>
+                                                <TextBlock Text="{Binding Description}"
+                                                        FontSize="12"
+                                                        Foreground="#666666"/>
+                                                <TextBlock Text="{Binding Provider}"
+                                                        FontSize="11"
+                                                        Foreground="#999999"/>
+                                            </StackPanel>
+
+                                            <!-- Status -->
+                                            <StackPanel Grid.Column="2"
+                                                    Orientation="Horizontal"
+                                                    VerticalAlignment="Center">
+                                                <Ellipse Style="{StaticResource StatusIndicatorStyle}"
+                                                        Margin="0,0,8,0"/>
+                                                <TextBlock Text="{Binding Status}"
+                                                        FontSize="12"
+                                                        VerticalAlignment="Center"/>
+                                            </StackPanel>
+
+                                            <!-- Last Connected -->
+                                            <TextBlock Grid.Column="3"
+                                                       Text="{Binding LastConnected, StringFormat='MMM dd, HH:mm'}"
+                                                       FontSize="12"
+                                                       Foreground="#666666"
+                                                       VerticalAlignment="Center"/>
+
+                                            <!-- Action Buttons -->
+                                            <StackPanel Grid.Column="4"
+                                                    Orientation="Horizontal"
+                                                    HorizontalAlignment="Right">
+                                                <Button Content="Test"
+                                                        Command="{Binding DataContext.TestConnectionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}"
+                                                        Style="{StaticResource SecondaryButtonStyle}"
+                                                        FontSize="11"
+                                                        Padding="8,4"/>
+
+                                                <Button Content="Connect"
+                                                        Command="{Binding DataContext.ConnectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}"
+                                                        FontSize="11"
+                                                        Padding="8,4">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button"
+                                                                BasedOn="{StaticResource PrimaryButtonStyle}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Status}"
+                                                                        Value="Connected">
+                                                                    <Setter Property="Content"
+                                                                            Value="Disconnect"/>
+                                                                    <Setter Property="Command"
+                                                                            Value="{Binding DataContext.DisconnectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                                                    <Setter Property="Background"
+                                                                            Value="#F44336"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+
+                                                <Button Content="Edit"
+                                                        Command="{Binding DataContext.EditConnectionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}"
+                                                        Style="{StaticResource SecondaryButtonStyle}"
+                                                        FontSize="11"
+                                                        Padding="8,4"/>
+
+                                                <Button Content="Delete"
+                                                        Command="{Binding DataContext.DeleteConnectionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}"
+                                                        Background="#F44336"
+                                                        Foreground="White"
+                                                        BorderThickness="0"
+                                                        FontSize="11"
+                                                        Padding="8,4"
+                                                        Margin="4"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <!-- Empty State -->
+                    <StackPanel Grid.Row="1"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Visibility="{Binding FilteredConnections.Count, Converter={StaticResource CountToVisibilityConverter}}">
+                        <TextBlock Text="📂"
+                                FontSize="48"
+                                HorizontalAlignment="Center"
+                                Foreground="#CCCCCC"/>
+                        <TextBlock Text="No cloud connections configured"
+                                   FontSize="16"
+                                   HorizontalAlignment="Center"
+                                   Foreground="#666666"
+                                   Margin="0,16,0,8"/>
+                        <TextBlock Text="Click 'Add Connection' to get started with your first cloud provider"
+                                   FontSize="14"
+                                   HorizontalAlignment="Center"
+                                   Foreground="#999999"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Connection Details/Editor Panel -->
+            <Border Grid.Column="2"
+                    Background="White"
+                    BorderBrush="#E0E0E0"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Visibility="{Binding IsEditingConnection, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <!-- Panel Header -->
+                        <TextBlock Text="{Binding IsAddingConnection, Converter={StaticResource AddEditHeaderConverter}}"
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   Margin="0,0,0,20"/>
+
+                        <!-- Provider Selection (for new connections) -->
+                        <Grid Visibility="{Binding IsAddingConnection, Converter={StaticResource BooleanToVisibilityConverter}}"
+                              Margin="0,0,0,20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                    Text="Cloud Provider"
+                                    FontWeight="Medium"
+                                    Margin="0,0,0,8"/>
+                            <ComboBox Grid.Row="1"
+                                      ItemsSource="{Binding CloudProviders}"
+                                      SelectedItem="{Binding SelectedProvider}"
+                                      Padding="8"/>
+                        </Grid>
+
+                        <!-- Connection Form -->
+                        <ContentPresenter Content="{Binding EditingConnection}">
+                            <ContentPresenter.Resources>
+                                <!-- AWS Connection Template -->
+                                <DataTemplate DataType="{x:Type models:AwsConnection}">
+                                    <StackPanel>
+                                        <TextBlock Text="AWS Connection Settings"
+                                                FontWeight="Medium"
+                                                Margin="0,0,0,16"/>
+
+                                        <TextBlock Text="Connection Name"
+                                                Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                                Padding="8"
+                                                Margin="0,0,0,12"/>
+
+                                        <TextBlock Text="Description (Optional)"
+                                                Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                                                Padding="8"
+                                                Margin="0,0,0,12"/>
+
+                                        <TextBlock Text="Access Key ID"
+                                                Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding AccessKeyId, UpdateSourceTrigger=PropertyChanged}"
+                                                Padding="8"
+                                                Margin="0,0,0,12"/>
+
+                                        <TextBlock Text="Secret Access Key"
+                                                Margin="0,0,0,4"/>
+                                        <PasswordBox x:Name="SecretKeyBox"
+                                                Padding="8"
+                                                Margin="0,0,0,12"/>
+
+                                        <TextBlock Text="Region"
+                                                Margin="0,0,0,4"/>
+                                        <ComboBox SelectedValue="{Binding Region}"
+                                                Padding="8"
+                                                Margin="0,0,0,12">
+                                            <ComboBoxItem Content="us-east-1"/>
+                                            <ComboBoxItem Content="us-west-1"/>
+                                            <ComboBoxItem Content="us-west-2"/>
+                                            <ComboBoxItem Content="eu-west-1"/>
+                                            <ComboBoxItem Content="eu-central-1"/>
+                                            <ComboBoxItem Content="ap-southeast-1"/>
+                                            <ComboBoxItem Content="ap-northeast-1"/>
+                                        </ComboBox>
+
+                                        <CheckBox Content="Use Session Token"
+                                                IsChecked="{Binding UseSessionToken}"
+                                                Margin="0,0,0,8"/>
+
+                                        <StackPanel Visibility="{Binding UseSessionToken, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <TextBlock Text="Session Token"
+                                                    Margin="0,0,0,4"/>
+                                            <TextBox Text="{Binding SessionToken, UpdateSourceTrigger=PropertyChanged}"
+                                                    Padding="8"
+                                                    Margin="0,0,0,12"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+
+                                <!-- Google Cloud Connection Template -->
+                                <DataTemplate DataType="{x:Type models:GoogleCloudConnection}">
+                                    <StackPanel>
+                                        <TextBlock Text="Google Cloud Connection Settings"
+                                                FontWeight="Medium"
+                                                Margin="0,0,0,16"/>
+
+                                        <TextBlock Text="Connection Name"
+                                                Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                                Padding="8"
+                                                Margin="0,0,0,12"/>
+
+                                        <TextBlock Text="Description (Optional)"
+                                                Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                                                Padding="8"
+                                                Margin="0,0,0,12"/>
+
+                                        <TextBlock Text="Project ID"
+                                                Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding ProjectId, UpdateSourceTrigger=PropertyChanged}"
+                                                Padding="8"
+                                                Margin="0,0,0,12"/>
+
+                                        <CheckBox Content="Use Service Account Key File"
+                                                IsChecked="{Binding UseKeyFile}"
+                                                Margin="0,0,0,8"/>
+
+                                        <StackPanel Visibility="{Binding UseKeyFile, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <TextBlock Text="Key File Path"
+                                                    Margin="0,0,0,4"/>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Grid.Column="0"
+                                                        Text="{Binding KeyFilePath, UpdateSourceTrigger=PropertyChanged}"
+                                                        Padding="8"/>
+                                                <Button Grid.Column="1"
+                                                        Content="Browse"
+                                                        Padding="8"
+                                                        Margin="4,0,0,0"/>
+                                            </Grid>
+                                        </StackPanel>
+
+                                        <StackPanel Visibility="{Binding UseKeyFile, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                                                Margin="0,12,0,0">
+                                            <TextBlock Text="Service Account JSON"
+                                                    Margin="0,0,0,4"/>
+                                            <TextBox Text="{Binding ServiceAccountJson, UpdateSourceTrigger=PropertyChanged}"
+                                                     AcceptsReturn="True"
+                                                     Height="120"
+                                                     TextWrapping="Wrap"
+                                                     VerticalScrollBarVisibility="Auto"
+                                                     Padding="8"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+
+                                <!-- Azure Connection Template -->
+                                <DataTemplate DataType="{x:Type models:AzureConnection}">
+                                    <StackPanel>
+                                        <TextBlock Text="Azure Connection Settings"
+                                                FontWeight="Medium"
+                                                Margin="0,0,0,16"/>
+
+                                        <TextBlock Text="Connection Name"
+                                                Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                                Padding="8"
+                                                Margin="0,0,0,12"/>
+
+                                        <TextBlock Text="Description (Optional)"
+                                                Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                                                Padding="8"
+                                                Margin="0,0,0,12"/>
+
+                                        <CheckBox Content="Use Managed Identity"
+                                                IsChecked="{Binding UseManagedIdentity}"
+                                                Margin="0,0,0,8"/>
+
+                                        <StackPanel Visibility="{Binding UseManagedIdentity, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                                            <TextBlock Text="Connection String (Optional)"
+                                                    Margin="0,0,0,4"/>
+                                            <TextBox Text="{Binding ConnectionString, UpdateSourceTrigger=PropertyChanged}"
+                                                    Padding="8"
+                                                    Margin="0,0,0,12"/>
+
+                                            <TextBlock Text="Tenant ID"
+                                                    Margin="0,0,0,4"/>
+                                            <TextBox Text="{Binding TenantId, UpdateSourceTrigger=PropertyChanged}"
+                                                    Padding="8"
+                                                    Margin="0,0,0,12"/>
+
+                                            <TextBlock Text="Client ID"
+                                                    Margin="0,0,0,4"/>
+                                            <TextBox Text="{Binding ClientId, UpdateSourceTrigger=PropertyChanged}"
+                                                    Padding="8"
+                                                    Margin="0,0,0,12"/>
+
+                                            <TextBlock Text="Client Secret"
+                                                    Margin="0,0,0,4"/>
+                                            <PasswordBox Padding="8"
+                                                    Margin="0,0,0,12"/>
+                                        </StackPanel>
+
+                                        <TextBlock Text="Subscription ID"
+                                                Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding SubscriptionId, UpdateSourceTrigger=PropertyChanged}"
+                                                Padding="8"
+                                                Margin="0,0,0,12"/>
+                                    </StackPanel>
+                                </DataTemplate>
+
+                                <!-- Oracle Connection Template -->
+                                <DataTemplate DataType="{x:Type models:OracleConnection}">
+                                    <StackPanel>
+                                        <TextBlock Text="Oracle Cloud Connection Settings"
+                                                FontWeight="Medium"
+                                                Margin="0,0,0,16"/>
+
+                                        <TextBlock Text="Connection Name"
+                                                Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                                Padding="8"
+                                                Margin="0,0,0,12"/>
+
+                                        <TextBlock Text="Description (Optional)"
+                                                Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                                                Padding="8"
+                                                Margin="0,0,0,12"/>
+
+                                        <TextBlock Text="User ID"
+                                                Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding UserId, UpdateSourceTrigger=PropertyChanged}"
+                                                Padding="8"
+                                                Margin="0,0,0,12"/>
+
+                                        <TextBlock Text="Fingerprint"
+                                                Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding Fingerprint, UpdateSourceTrigger=PropertyChanged}"
+                                                Padding="8"
+                                                Margin="0,0,0,12"/>
+
+                                        <TextBlock Text="Tenancy ID"
+                                                Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding TenancyId, UpdateSourceTrigger=PropertyChanged}"
+                                                Padding="8"
+                                                Margin="0,0,0,12"/>
+
+                                        <TextBlock Text="Region"
+                                                Margin="0,0,0,4"/>
+                                        <ComboBox SelectedValue="{Binding Region}"
+                                                Padding="8"
+                                                Margin="0,0,0,12">
+                                            <ComboBoxItem Content="us-ashburn-1"/>
+                                            <ComboBoxItem Content="us-phoenix-1"/>
+                                            <ComboBoxItem Content="eu-frankfurt-1"/>
+                                            <ComboBoxItem Content="ap-tokyo-1"/>
+                                        </ComboBox>
+
+                                        <CheckBox Content="Use Private Key File"
+                                                IsChecked="{Binding UseKeyFile}"
+                                                Margin="0,0,0,8"/>
+
+                                        <StackPanel Visibility="{Binding UseKeyFile, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <TextBlock Text="Private Key File Path"
+                                                    Margin="0,0,0,4"/>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Grid.Column="0"
+                                                        Text="{Binding PrivateKeyPath, UpdateSourceTrigger=PropertyChanged}"
+                                                        Padding="8"/>
+                                                <Button Grid.Column="1"
+                                                        Content="Browse"
+                                                        Padding="8"
+                                                        Margin="4,0,0,0"/>
+                                            </Grid>
+                                        </StackPanel>
+
+                                        <StackPanel Visibility="{Binding UseKeyFile, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                                                Margin="0,12,0,0">
+                                            <TextBlock Text="Private Key Content"
+                                                    Margin="0,0,0,4"/>
+                                            <TextBox Text="{Binding PrivateKeyContent, UpdateSourceTrigger=PropertyChanged}"
+                                                     AcceptsReturn="True"
+                                                     Height="120"
+                                                     TextWrapping="Wrap"
+                                                     VerticalScrollBarVisibility="Auto"
+                                                     Padding="8"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+
+                        <!-- Action Buttons -->
+                        <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Margin="0,24,0,0">
+                            <Button Content="Cancel"
+                                    Command="{Binding CancelEditCommand}"
+                                    Style="{StaticResource SecondaryButtonStyle}"/>
+                            <Button Content="Save Connection"
+                                    Command="{Binding SaveConnectionCommand}"
+                                    Style="{StaticResource PrimaryButtonStyle}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

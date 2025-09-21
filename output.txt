@@ -1,0 +1,4 @@
+=== DataQuill Desktop Starting ===
+Window initialized successfully!
+Window should now be visible!
+=== DataQuill Desktop Ready ===

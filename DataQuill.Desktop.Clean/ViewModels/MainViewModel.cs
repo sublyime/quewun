@@ -58,6 +58,14 @@ public class MainViewModel : BaseViewModel
         {
             CurrentSection = section;
             Console.WriteLine($"Navigated to: {section}");
+
+            // Load cloud connections when navigating to terminal
+            if (section == "Terminal")
+            {
+                // Get the terminal view model and load cloud connections
+                var terminalViewModel = new TerminalViewModel();
+                terminalViewModel.LoadCloudConnections();
+            }
         }
     }
 
