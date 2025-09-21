@@ -41,8 +41,8 @@
                             Height="40"
                             Margin="0,5"
                             Click="NavigateToSection"/>
-                    <Button Name="ConfigureBtn"
-                            Content="Configure"
+                    <Button Name="DataSourcesBtn"
+                            Content="Data Sources"
                             Height="40"
                             Margin="0,5"
                             Click="NavigateToSection"/>
@@ -88,9 +88,9 @@
                     <!-- Dashboard View -->
                     <views:DashboardView x:Name="DashboardPanel"
                                          Visibility="Collapsed"/>
-                    <!-- Configure View -->
-                    <views:ConfigureView x:Name="ConfigurePanel"
-                                         Visibility="Collapsed"/>
+                    <!-- Data Sources View -->
+                    <views:DataSourcesView x:Name="DataSourcesPanel"
+                                           Visibility="Collapsed"/>
                     <!-- Reports View -->
                     <views:ReportsView x:Name="ReportsPanel"
                                        Visibility="Collapsed"/>

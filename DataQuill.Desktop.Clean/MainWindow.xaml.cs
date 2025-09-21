@@ -48,7 +48,7 @@ public partial class MainWindow : Window
             // Hide all panels first
             ContentDisplay.Visibility = Visibility.Collapsed;
             DashboardPanel.Visibility = Visibility.Collapsed;
-            ConfigurePanel.Visibility = Visibility.Collapsed;
+            DataSourcesPanel.Visibility = Visibility.Collapsed;
             ReportsPanel.Visibility = Visibility.Collapsed;
             StoragePanel.Visibility = Visibility.Collapsed;
             UsersPanel.Visibility = Visibility.Collapsed;
@@ -60,8 +60,8 @@ public partial class MainWindow : Window
                 case "Dashboard":
                     DashboardPanel.Visibility = Visibility.Visible;
                     break;
-                case "Configure":
-                    ConfigurePanel.Visibility = Visibility.Visible;
+                case "DataSources":
+                    DataSourcesPanel.Visibility = Visibility.Visible;
                     break;
                 case "Reports":
                     ReportsPanel.Visibility = Visibility.Visible;
