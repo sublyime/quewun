@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 C:\code\quewun\DataQuill.Desktop.Clean\App.xaml
-101718272678
+111132248174
 
-50-977157775
+521975660216
 2281970110876
-MainWindow.xaml;TestWindow.xaml;Views\DashboardView.xaml;Views\DataSourcesView.xaml;Views\ReportsView.xaml;Views\StorageView.xaml;Views\TerminalView.xaml;Views\UserAdminView.xaml;Views\UserEditDialog.xaml;Views\UsersView.xaml;
+MainWindow.xaml;TestMainWindow.xaml;TestWindow.xaml;Views\DashboardView.xaml;Views\DataSourcesView.xaml;Views\ReportsView.xaml;Views\StorageView.xaml;Views\TerminalView.xaml;Views\UserAdminView.xaml;Views\UserEditDialog.xaml;Views\UsersView.xaml;
 
 False
 

@@ -24,6 +24,10 @@ public class ApiService : IApiService
         _baseUrl = baseUrl;
     }
 
+    public ApiService() : this(new HttpClient(), "http://localhost:8080")
+    {
+    }
+
     public async Task<T?> GetAsync<T>(string endpoint)
     {
         try

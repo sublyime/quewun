@@ -123,7 +123,7 @@ public class DataCollectionService : IDisposable
     /// <summary>
     /// Collect data from a specific data source based on its configuration
     /// </summary>
-    private async Task<List<DataPoint>> CollectDataFromSource(DataSource dataSource)
+    public async Task<List<DataPoint>> CollectDataFromSource(DataSource dataSource)
     {
         var dataPoints = new List<DataPoint>();
 

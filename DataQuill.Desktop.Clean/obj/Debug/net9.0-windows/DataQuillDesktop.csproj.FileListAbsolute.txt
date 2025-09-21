@@ -4,6 +4,7 @@ C:\code\quewun\DataQuill.Desktop.Clean\bin\Debug\net9.0-windows\DataQuillDesktop
 C:\code\quewun\DataQuill.Desktop.Clean\bin\Debug\net9.0-windows\DataQuillDesktop.dll
 C:\code\quewun\DataQuill.Desktop.Clean\bin\Debug\net9.0-windows\DataQuillDesktop.pdb
 C:\code\quewun\DataQuill.Desktop.Clean\bin\Debug\net9.0-windows\BouncyCastle.Cryptography.dll
+C:\code\quewun\DataQuill.Desktop.Clean\bin\Debug\net9.0-windows\FluentModbus.dll
 C:\code\quewun\DataQuill.Desktop.Clean\bin\Debug\net9.0-windows\Humanizer.dll
 C:\code\quewun\DataQuill.Desktop.Clean\bin\Debug\net9.0-windows\MaterialDesignColors.dll
 C:\code\quewun\DataQuill.Desktop.Clean\bin\Debug\net9.0-windows\MaterialDesignThemes.Wpf.dll
@@ -132,7 +133,6 @@ C:\code\quewun\DataQuill.Desktop.Clean\bin\Debug\net9.0-windows\runtimes\unix\li
 C:\code\quewun\DataQuill.Desktop.Clean\bin\Debug\net9.0-windows\runtimes\win\lib\net9.0\System.IO.Ports.dll
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\DataQuillDesktop.csproj.AssemblyReference.cache
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\TestWindow.baml
-C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\Views\DashboardView.baml
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\Views\ReportsView.baml
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\Views\UserAdminView.baml
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\Views\UserEditDialog.baml
@@ -153,6 +153,7 @@ C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\DataQuillDesktop
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\DataQuillDesktop_MarkupCompile.lref
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\App.baml
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\MainWindow.baml
+C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\Views\DashboardView.baml
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\Views\DataSourcesView.baml
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\Views\StorageView.baml
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\Views\TerminalView.baml
@@ -166,4 +167,5 @@ C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\refint\DataQuill
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\DataQuillDesktop.pdb
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\DataQuillDesktop.genruntimeconfig.cache
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\ref\DataQuillDesktop.dll
-C:\code\quewun\DataQuill.Desktop.Clean\bin\Debug\net9.0-windows\FluentModbus.dll
+C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\TestMainWindow.baml
+C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\TestMainWindow.g.cs
