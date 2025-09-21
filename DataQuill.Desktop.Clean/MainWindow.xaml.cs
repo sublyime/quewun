@@ -517,7 +517,7 @@ namespace DataQuillDesktop
             public RelayCommand StartCollectionCommand => new RelayCommand(() =>
             {
                 Console.WriteLine("⚠️ Start Collection disabled - backend services not initialized");
-                MessageBox.Show("Start Collection is temporarily disabled while debugging backend services.", 
+                MessageBox.Show("Start Collection is temporarily disabled while debugging backend services.",
                               "Feature Disabled", MessageBoxButton.OK, MessageBoxImage.Information);
             });
 
