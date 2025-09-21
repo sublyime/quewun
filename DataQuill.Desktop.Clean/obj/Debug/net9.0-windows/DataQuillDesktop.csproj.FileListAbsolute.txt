@@ -166,3 +166,4 @@ C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\refint\DataQuill
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\DataQuillDesktop.pdb
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\DataQuillDesktop.genruntimeconfig.cache
 C:\code\quewun\DataQuill.Desktop.Clean\obj\Debug\net9.0-windows\ref\DataQuillDesktop.dll
+C:\code\quewun\DataQuill.Desktop.Clean\bin\Debug\net9.0-windows\FluentModbus.dll

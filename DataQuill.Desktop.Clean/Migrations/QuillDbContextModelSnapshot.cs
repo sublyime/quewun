@@ -43,6 +43,50 @@ namespace DataQuillDesktop.Migrations
                     b.ToTable("AppConfigs");
                 });
 
+            modelBuilder.Entity("DataQuillDesktop.Models.DataPoint", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DataSourceId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("DataType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Quality")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("TagName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DataSourceId", "Timestamp");
+
+                    b.ToTable("DataPoints");
+                });
+
             modelBuilder.Entity("DataQuillDesktop.Models.DataSource", b =>
                 {
                     b.Property<int>("Id")
@@ -118,6 +162,17 @@ namespace DataQuillDesktop.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("DataQuillDesktop.Models.DataPoint", b =>
+                {
+                    b.HasOne("DataQuillDesktop.Models.DataSource", "DataSource")
+                        .WithMany()
+                        .HasForeignKey("DataSourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DataSource");
                 });
 
             modelBuilder.Entity("DataQuillDesktop.Models.DataSource", b =>

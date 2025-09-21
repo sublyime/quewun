@@ -15,6 +15,24 @@
           }
         }
       },
+      "FluentModbus/5.3.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
+          "System.IO.Ports": "5.0.0",
+          "System.Runtime.CompilerServices.Unsafe": "5.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.1/FluentModbus.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/FluentModbus.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Humanizer.Core/2.14.1": {
         "type": "package",
         "compile": {
@@ -2240,7 +2258,7 @@
       "System.Runtime.CompilerServices.Unsafe/6.0.0": {
         "type": "package",
         "compile": {
-          "lib/net6.0/_._": {
+          "lib/net6.0/System.Runtime.CompilerServices.Unsafe.dll": {
             "related": ".xml"
           }
         },
@@ -2306,6 +2324,23 @@
         "lib/netstandard2.0/BouncyCastle.Cryptography.dll",
         "lib/netstandard2.0/BouncyCastle.Cryptography.xml",
         "packageIcon.png"
+      ]
+    },
+    "FluentModbus/5.3.2": {
+      "sha512": "uAX793yttHSH5vdbOTg8+QnLDuqWCuuBDbtEBrlXNLNXh+J1AqPo6vxd77OTxInoLayEBvI2k6UaYVeBjROrvg==",
+      "type": "package",
+      "path": "fluentmodbus/5.3.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "fluentmodbus.5.3.2.nupkg.sha512",
+        "fluentmodbus.nuspec",
+        "icon.png",
+        "lib/netstandard2.0/FluentModbus.dll",
+        "lib/netstandard2.0/FluentModbus.xml",
+        "lib/netstandard2.1/FluentModbus.dll",
+        "lib/netstandard2.1/FluentModbus.xml"
       ]
     },
     "Humanizer.Core/2.14.1": {
@@ -5051,6 +5086,7 @@
   },
   "projectFileDependencyGroups": {
     "net9.0-windows7.0": [
+      "FluentModbus >= 5.3.2",
       "MaterialDesignThemes >= 5.2.1",
       "Microsoft.EntityFrameworkCore.Design >= 9.0.9",
       "Microsoft.Extensions.DependencyInjection >= 9.0.9",
@@ -5104,6 +5140,10 @@
       "net9.0-windows7.0": {
         "targetAlias": "net9.0-windows",
         "dependencies": {
+          "FluentModbus": {
+            "target": "Package",
+            "version": "[5.3.2, )"
+          },
           "MaterialDesignThemes": {
             "target": "Package",
             "version": "[5.2.1, )"

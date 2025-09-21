@@ -3,6 +3,7 @@ using System.IO.Ports;
 using System.Windows;
 using System.Windows.Controls;
 using DataQuillDesktop.Models;
+using DataQuillDesktop.Services;
 using Microsoft.Win32;
 
 namespace DataQuillDesktop.Views
@@ -11,15 +12,19 @@ namespace DataQuillDesktop.Views
     {
         public ObservableCollection<DataSource> DataSources { get; set; }
         private DataSource? _currentDataSource;
+        private readonly DataSourceService _dataSourceService;
 
         public DataSourcesView()
         {
             InitializeComponent();
             DataSources = new ObservableCollection<DataSource>();
             DataSourcesList.ItemsSource = DataSources;
+            _dataSourceService = new DataSourceService();
 
             InitializeComboBoxes();
-            LoadDataSources();
+            
+            // Load data sources asynchronously after the UI is initialized
+            Loaded += async (sender, e) => await LoadDataSources();
         }
 
         private void InitializeComboBoxes()
@@ -43,19 +48,44 @@ namespace DataQuillDesktop.Views
             }
         }
 
-        private void LoadDataSources()
+        private async Task LoadDataSources()
         {
-            // TODO: Load from database
-            // For now, add some sample data
-            DataSources.Add(new DataSource
+            try
             {
-                Id = 1,
-                Name = "Sample Modbus TCP",
-                Description = "Sample Modbus TCP connection",
-                InterfaceType = InterfaceType.TCP,
-                ProtocolType = ProtocolType.ModbusTCP,
-                IsActive = true
-            });
+                DataSources.Clear();
+                var dataSources = await _dataSourceService.GetAllDataSourcesAsync();
+                foreach (var dataSource in dataSources)
+                {
+                    DataSources.Add(dataSource);
+                }
+
+                // If no data sources exist, add a sample one for testing
+                if (DataSources.Count == 0)
+                {
+                    var sampleDataSource = new DataSource
+                    {
+                        Id = 1,
+                        Name = "Sample Modbus TCP",
+                        Description = "Sample Modbus TCP connection",
+                        InterfaceType = InterfaceType.TCP,
+                        ProtocolType = ProtocolType.ModbusTCP,
+                        IsActive = true,
+                        Configuration = new DataSourceConfiguration
+                        {
+                            Host = "127.0.0.1",
+                            Port = 502,
+                            SlaveId = 1,
+                            Timeout = 5
+                        }
+                    };
+                    DataSources.Add(sampleDataSource);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading data sources: {ex.Message}", "Load Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void DataSourcesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -97,7 +127,7 @@ namespace DataQuillDesktop.Views
             }
         }
 
-        private void DeleteDataSource_Click(object sender, RoutedEventArgs e)
+        private async void DeleteDataSource_Click(object sender, RoutedEventArgs e)
         {
             if (_currentDataSource != null)
             {
@@ -106,10 +136,27 @@ namespace DataQuillDesktop.Views
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    DataSources.Remove(_currentDataSource);
-                    ConfigurationPanel.Visibility = Visibility.Collapsed;
-                    WelcomePanel.Visibility = Visibility.Visible;
-                    // TODO: Delete from database
+                    try
+                    {
+                        // Delete from database if it has an ID (not a new item)
+                        if (_currentDataSource.Id > 0)
+                        {
+                            await _dataSourceService.DeleteDataSourceAsync(_currentDataSource.Id);
+                        }
+
+                        DataSources.Remove(_currentDataSource);
+                        ConfigurationPanel.Visibility = Visibility.Collapsed;
+                        WelcomePanel.Visibility = Visibility.Visible;
+                        _currentDataSource = null;
+
+                        MessageBox.Show("Data source deleted successfully!", "Delete",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error deleting data source: {ex.Message}", "Delete Error",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }
@@ -247,77 +294,116 @@ namespace DataQuillDesktop.Views
             USBDeviceComboBox.Items.Add("USB Device 2");
         }
 
-        private void TestConnection_Click(object sender, RoutedEventArgs e)
+        private async void TestConnection_Click(object sender, RoutedEventArgs e)
         {
             if (_currentDataSource == null) return;
 
             try
             {
-                // TODO: Implement actual connection testing
-                MessageBox.Show("Connection test not yet implemented.", "Test Connection",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                // Update current data source with UI values before testing
+                UpdateDataSourceFromUI();
+
+                // Show testing message
+                TestConnectionBtn.IsEnabled = false;
+                TestConnectionBtn.Content = "Testing...";
+
+                // Test the connection using DataSourceService
+                bool success = await _dataSourceService.TestConnectionAsync(_currentDataSource);
+
+                if (success)
+                {
+                    MessageBox.Show("Connection test successful!", "Test Connection",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Connection test failed. Please check your settings.", "Test Connection",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Connection test failed: {ex.Message}", "Test Connection",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            finally
+            {
+                TestConnectionBtn.IsEnabled = true;
+                TestConnectionBtn.Content = "Test Connection";
+            }
         }
 
-        private void SaveDataSource_Click(object sender, RoutedEventArgs e)
+        private async void SaveDataSource_Click(object sender, RoutedEventArgs e)
         {
             if (_currentDataSource == null) return;
 
             try
             {
                 // Update data source from UI
-                _currentDataSource.Name = NameTextBox.Text;
-                _currentDataSource.Description = DescriptionTextBox.Text;
-                _currentDataSource.InterfaceType = (InterfaceType)InterfaceComboBox.SelectedItem;
-                _currentDataSource.ProtocolType = (ProtocolType)ProtocolComboBox.SelectedItem;
-                _currentDataSource.LastUpdated = DateTime.UtcNow;
+                UpdateDataSourceFromUI();
 
-                // Update configuration
-                var config = _currentDataSource.Configuration;
-                config.Host = HostTextBox.Text;
-                if (int.TryParse(PortTextBox.Text, out int port)) config.Port = port;
-                if (int.TryParse(TimeoutTextBox.Text, out int timeout)) config.Timeout = timeout;
-                config.UseSSL = UseSSLCheckBox.IsChecked ?? false;
-                config.Username = UsernameTextBox.Text;
+                // Save to database
+                bool success = await _dataSourceService.SaveDataSourceAsync(_currentDataSource);
 
-                config.FilePath = FilePathTextBox.Text;
-                config.FilePattern = FilePatternTextBox.Text;
-                config.WatchForChanges = WatchChangesCheckBox.IsChecked ?? false;
-
-                config.PortName = SerialPortComboBox.Text;
-                if (int.TryParse(BaudRateComboBox.Text, out int baudRate)) config.BaudRate = baudRate;
-                if (int.TryParse(DataBitsComboBox.Text, out int dataBits)) config.DataBits = dataBits;
-                config.Parity = ParityComboBox.Text;
-                config.StopBits = StopBitsComboBox.Text;
-                config.Handshake = HandshakeComboBox.Text;
-
-                config.Topic = TopicTextBox.Text;
-                if (int.TryParse(SlaveIdTextBox.Text, out int slaveId)) config.SlaveId = slaveId;
-                config.Endpoint = EndpointTextBox.Text;
-                config.ApiKey = ApiKeyTextBox.Text;
-                config.ClientId = ClientIdTextBox.Text;
-
-                // Add to collection if new
-                if (!DataSources.Contains(_currentDataSource))
+                if (success)
                 {
-                    DataSources.Add(_currentDataSource);
+                    // Add to collection if it's new (ID was 0)
+                    if (!DataSources.Contains(_currentDataSource))
+                    {
+                        DataSources.Add(_currentDataSource);
+                    }
+
+                    MessageBox.Show("Data source saved successfully!", "Save",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-
-                // TODO: Save to database
-
-                MessageBox.Show("Data source saved successfully!", "Save",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                else
+                {
+                    MessageBox.Show("Failed to save data source to database.", "Save Error",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error saving data source: {ex.Message}", "Save Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void UpdateDataSourceFromUI()
+        {
+            if (_currentDataSource == null) return;
+
+            // Update basic information
+            _currentDataSource.Name = NameTextBox.Text;
+            _currentDataSource.Description = DescriptionTextBox.Text;
+            _currentDataSource.InterfaceType = (InterfaceType)InterfaceComboBox.SelectedItem;
+            _currentDataSource.ProtocolType = (ProtocolType)ProtocolComboBox.SelectedItem;
+            _currentDataSource.LastUpdated = DateTime.UtcNow;
+
+            // Update configuration
+            var config = _currentDataSource.Configuration;
+            config.Host = HostTextBox.Text;
+            if (int.TryParse(PortTextBox.Text, out int port)) config.Port = port;
+            if (int.TryParse(TimeoutTextBox.Text, out int timeout)) config.Timeout = timeout;
+            config.UseSSL = UseSSLCheckBox.IsChecked ?? false;
+            config.Username = UsernameTextBox.Text;
+
+            config.FilePath = FilePathTextBox.Text;
+            config.FilePattern = FilePatternTextBox.Text;
+            config.WatchForChanges = WatchChangesCheckBox.IsChecked ?? false;
+
+            config.PortName = SerialPortComboBox.Text;
+            if (int.TryParse(BaudRateComboBox.Text, out int baudRate)) config.BaudRate = baudRate;
+            if (int.TryParse(DataBitsComboBox.Text, out int dataBits)) config.DataBits = dataBits;
+            config.Parity = ParityComboBox.Text;
+            config.StopBits = StopBitsComboBox.Text;
+            config.Handshake = HandshakeComboBox.Text;
+
+            config.Topic = TopicTextBox.Text;
+            if (int.TryParse(SlaveIdTextBox.Text, out int slaveId)) config.SlaveId = slaveId;
+            config.Endpoint = EndpointTextBox.Text;
+            config.ApiKey = ApiKeyTextBox.Text;
+            config.ClientId = ClientIdTextBox.Text;
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

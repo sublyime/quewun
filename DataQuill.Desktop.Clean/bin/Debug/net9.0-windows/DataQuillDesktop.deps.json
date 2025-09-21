@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v9.0": {
       "DataQuillDesktop/1.0.0": {
         "dependencies": {
+          "FluentModbus": "5.3.2",
           "MaterialDesignThemes": "5.2.1",
           "Microsoft.EntityFrameworkCore.Design": "9.0.9",
           "Microsoft.Extensions.DependencyInjection": "9.0.9",
@@ -26,6 +27,19 @@
           "lib/net6.0/BouncyCastle.Cryptography.dll": {
             "assemblyVersion": "2.0.0.0",
             "fileVersion": "2.5.1.28965"
+          }
+        }
+      },
+      "FluentModbus/5.3.2": {
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.9",
+          "System.IO.Ports": "9.0.9",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/FluentModbus.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.3.2.0"
           }
         }
       },
@@ -937,6 +951,13 @@
       "sha512": "sha512-zy8TMeTP+1FH2NrLaNZtdRbBdq7u5MI+NFZQOBSM69u5RFkciinwzV2eveY6Kjf5MzgsYvvl6kTStsj3JrXqkg==",
       "path": "bouncycastle.cryptography/2.5.1",
       "hashPath": "bouncycastle.cryptography.2.5.1.nupkg.sha512"
+    },
+    "FluentModbus/5.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uAX793yttHSH5vdbOTg8+QnLDuqWCuuBDbtEBrlXNLNXh+J1AqPo6vxd77OTxInoLayEBvI2k6UaYVeBjROrvg==",
+      "path": "fluentmodbus/5.3.2",
+      "hashPath": "fluentmodbus.5.3.2.nupkg.sha512"
     },
     "Humanizer.Core/2.14.1": {
       "type": "package",

@@ -9,6 +9,7 @@ namespace DataQuillDesktop
         public DbSet<User> Users { get; set; }
         public DbSet<AppConfig> AppConfigs { get; set; }
         public DbSet<DataSource> DataSources { get; set; }
+        public DbSet<DataPoint> DataPoints { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -40,6 +41,26 @@ namespace DataQuillDesktop
                               v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
                               v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, (JsonSerializerOptions?)null) ?? new Dictionary<string, string>());
                 });
+            });
+
+            // Configure DataPoint entity
+            modelBuilder.Entity<DataPoint>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.TagName).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.DataType).HasMaxLength(50);
+                entity.Property(e => e.Unit).HasMaxLength(20);
+                entity.Property(e => e.Quality).HasMaxLength(20);
+                entity.Property(e => e.Value).HasConversion(
+                    v => v != null ? v.ToString() : null,
+                    v => v);
+                entity.HasIndex(e => new { e.DataSourceId, e.Timestamp });
+                
+                // Configure relationship with DataSource
+                entity.HasOne(e => e.DataSource)
+                      .WithMany()
+                      .HasForeignKey(e => e.DataSourceId)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
         }
     }
