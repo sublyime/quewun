@@ -231,3 +231,57 @@
 [9/21/2025 10:06:30 AM] DashboardViewModelWrapper created with backend service: IntegratedBackendService, Status: Running, Connected: True
 [9/21/2025 10:06:30 AM] CollectionStatusText: '🟢 Live Data Active', DataSourcesSummary: 'Status: Running'
 [9/21/2025 10:06:30 AM] Dashboard connected to real backend service successfully - DataContext: DashboardViewModelWrapper
+[9/21/2025 10:12:14 AM] Starting backend initialization
+[9/21/2025 10:12:14 AM] Creating IntegratedBackendService...
+[9/21/2025 10:12:14 AM] IntegratedBackendService created successfully
+[9/21/2025 10:12:14 AM] Starting backend services...
+[9/21/2025 10:12:15 AM] Backend services start initiated
+[9/21/2025 10:12:15 AM] Backend services initialization completed
+[9/21/2025 10:12:15 AM] Dashboard creation - Backend service: Available
+[9/21/2025 10:12:15 AM] DashboardViewModelWrapper created with backend service: IntegratedBackendService, Status: Running, Connected: True
+[9/21/2025 10:12:15 AM] CollectionStatusText: '🟢 Live Data Active', DataSourcesSummary: 'Status: Running'
+[9/21/2025 10:12:15 AM] Dashboard connected to real backend service successfully - DataContext: DashboardViewModelWrapper
+[9/21/2025 10:12:57 AM] Starting backend initialization
+[9/21/2025 10:12:57 AM] Creating IntegratedBackendService...
+[9/21/2025 10:12:57 AM] IntegratedBackendService created successfully
+[9/21/2025 10:12:57 AM] Starting backend services...
+[9/21/2025 10:12:58 AM] Backend services start initiated
+[9/21/2025 10:12:58 AM] Backend services initialization completed
+[9/21/2025 10:12:58 AM] Dashboard creation - Backend service: Available
+[9/21/2025 10:12:58 AM] DashboardViewModelWrapper created with backend service: IntegratedBackendService, Status: Running, Connected: True
+[9/21/2025 10:12:58 AM] CollectionStatusText: '🟢 Live Data Active', DataSourcesSummary: 'Status: Running'
+[9/21/2025 10:12:58 AM] Dashboard connected to real backend service successfully - DataContext: DashboardViewModelWrapper
+[9/21/2025 10:16:44 AM] Starting backend initialization
+[9/21/2025 10:16:44 AM] Creating IntegratedBackendService...
+[9/21/2025 10:16:44 AM] IntegratedBackendService created successfully
+[9/21/2025 10:16:44 AM] Starting backend services...
+[9/21/2025 10:16:45 AM] Backend services start initiated
+[9/21/2025 10:16:45 AM] Backend services initialization completed
+[9/21/2025 10:16:45 AM] Dashboard creation - Backend service: Available
+[9/21/2025 10:16:45 AM] DashboardViewModelWrapper created with backend service: IntegratedBackendService, Status: Running, Connected: True
+[9/21/2025 10:16:45 AM] CollectionStatusText: '🟢 Live Data Active', DataSourcesSummary: 'Status: Running'
+[9/21/2025 10:16:45 AM] Dashboard connected to real backend service successfully - DataContext: DashboardViewModelWrapper
+[9/21/2025 10:23:50 AM] Starting backend initialization
+[9/21/2025 10:23:50 AM] Creating IntegratedBackendService...
+[9/21/2025 10:23:51 AM] IntegratedBackendService created successfully
+[9/21/2025 10:23:51 AM] Starting backend services...
+[9/21/2025 10:23:51 AM] Backend services start initiated
+[9/21/2025 10:23:51 AM] Backend services initialization completed
+[9/21/2025 10:23:51 AM] Dashboard creation - Backend service: Available
+[9/21/2025 10:23:51 AM] DashboardViewModelWrapper created with backend service: IntegratedBackendService, Status: Running, Connected: True
+[9/21/2025 10:23:51 AM] CollectionStatusText: '🟢 Live Data Active', DataSourcesSummary: 'Status: Running'
+[9/21/2025 10:23:51 AM] Dashboard connected to real backend service successfully - DataContext: DashboardViewModelWrapper
+[9/21/2025 10:28:29 AM] Starting backend initialization
+[9/21/2025 10:28:29 AM] Creating IntegratedBackendService...
+[9/21/2025 10:28:29 AM] IntegratedBackendService created successfully
+[9/21/2025 10:28:29 AM] Starting backend services...
+[9/21/2025 10:28:29 AM] Backend services start initiated
+[9/21/2025 10:28:29 AM] Backend services initialization completed
+[9/21/2025 10:28:29 AM] Dashboard creation - Backend service: Available
+[9/21/2025 10:28:29 AM] DashboardViewModelWrapper created with backend service: IntegratedBackendService, Status: Running, Connected: True
+[9/21/2025 10:28:29 AM] CollectionStatusText: '🟢 Live Data Active', DataSourcesSummary: 'Status: Running'
+[9/21/2025 10:28:29 AM] Dashboard connected to real backend service successfully - DataContext: DashboardViewModelWrapper
+[9/21/2025 10:28:48 AM] Dashboard creation - Backend service: Available
+[9/21/2025 10:28:48 AM] DashboardViewModelWrapper created with backend service: IntegratedBackendService, Status: Running, Connected: True
+[9/21/2025 10:28:48 AM] CollectionStatusText: '🟢 Live Data Active', DataSourcesSummary: 'Status: Running'
+[9/21/2025 10:28:48 AM] Dashboard connected to real backend service successfully - DataContext: DashboardViewModelWrapper

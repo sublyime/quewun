@@ -172,6 +172,11 @@ namespace DataQuillDesktop
                         Console.WriteLine("✅ Modbus source protocol type updated");
                     }
 
+                    // MANUAL TRIGGER: Force enhanced configuration setup
+                    Console.WriteLine("🚀 MANUAL TRIGGER: Checking and forcing enhanced Modbus configuration...");
+                    DatabaseConfigurationService.CheckModbusConfigurationStatus();
+                    DatabaseConfigurationService.ForceEnhancedModbusSetup();
+
                     return;
                 }
 
@@ -333,6 +338,45 @@ namespace DataQuillDesktop
         private void UsersBtn_Click(object sender, RoutedEventArgs e)
         {
             NavigateToSection("Users");
+        }
+
+        private void EnhancedModbusBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Console.WriteLine("🚀 MANUAL BUTTON: Enhanced Modbus configuration triggered by user");
+
+                // Show status before
+                DatabaseConfigurationService.CheckModbusConfigurationStatus();
+
+                // Force enhanced setup
+                DatabaseConfigurationService.ForceEnhancedModbusSetup();
+
+                // Show status after
+                DatabaseConfigurationService.CheckModbusConfigurationStatus();
+
+                // Update UI to show success
+                MessageBox.Show(
+                    "Enhanced Modbus configuration has been applied!\n\n" +
+                    "Check the console output for details.\n" +
+                    "The next data collection cycle should use the new enhanced register configuration.",
+                    "Enhanced Modbus Setup",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information
+                );
+
+                Console.WriteLine("✅ MANUAL BUTTON: Enhanced Modbus setup completed - check Dashboard for new tag names");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ MANUAL BUTTON FAILED: {ex.Message}");
+                MessageBox.Show(
+                    $"Failed to apply enhanced Modbus configuration:\n\n{ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+            }
         }
 
         // Simple Navigation Method

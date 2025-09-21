@@ -9,6 +9,7 @@
         <ResourceDictionary>
             <!-- Custom Converters -->
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter"/>
             <!-- Other converters temporarily commented out to isolate issues
             <converters:SectionToVisibilityConverter x:Key="SectionToVisibilityConverter"/>
             <converters:BooleanToColorConverter x:Key="BooleanToColorConverter"/>
@@ -16,7 +17,6 @@
             <converters:MessageTypeToColorConverter x:Key="MessageTypeToColorConverter"/>
             <converters:StatusColorConverter x:Key="StatusColorConverter"/>
             <converters:MessageTypeColorConverter x:Key="MessageTypeColorConverter"/>
-            <converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter"/>
             -->
         </ResourceDictionary>
     </Application.Resources>

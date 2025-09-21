@@ -291,8 +291,17 @@ public class DataCollectionService : IDisposable
 
             var slaveId = (byte)config.SlaveId;
 
+            // Debug: Check configuration details
+            Console.WriteLine($"🔍 Debug - Data source: {dataSource.Name}");
+            Console.WriteLine($"🔍 Debug - Config ModbusRegisters: {config.ModbusRegisters?.Count ?? 0} registers");
+            Console.WriteLine($"🔍 Debug - Config is null: {config == null}");
+            if (config != null)
+            {
+                Console.WriteLine($"🔍 Debug - ModbusRegisters is null: {config.ModbusRegisters == null}");
+            }
+
             // Check if we have configured Modbus registers
-            if (config.ModbusRegisters?.Count > 0)
+            if (config?.ModbusRegisters?.Count > 0)
             {
                 Console.WriteLine($"📖 Reading {config.ModbusRegisters.Count} configured Modbus registers...");
 
